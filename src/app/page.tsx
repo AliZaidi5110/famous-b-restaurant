@@ -46,7 +46,7 @@ export default function Home() {
       setCurrentSlide((prev) => (prev + 1) % images.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [images.length]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -259,7 +259,7 @@ Special Requests: ${formData.message}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-6"
             >
-              It's an Experience.
+              It&apos;s an Experience.
             </motion.h2>
             <motion.div
               initial={{ width: 0 }}
@@ -386,7 +386,7 @@ Special Requests: ${formData.message}
             className="max-w-4xl mx-auto text-center relative z-10"
           >
             <p className="text-2xl md:text-4xl text-[#F5F0E8] font-serif italic leading-relaxed mb-8">
-              "We cook with the same love and tradition our mothers cooked with. Every plate is a piece of home."
+              &quot;We cook with the same love and tradition our mothers cooked with. Every plate is a piece of home.&quot;
             </p>
             <p className="text-[#C9A84C] font-serif text-lg">— Famous B Restaurant Leeds</p>
           </motion.div>
@@ -864,7 +864,7 @@ Special Requests: ${formData.message}
               </div>
               <h3 className="text-2xl font-bold text-[#F5F0E8] font-serif mb-4">Call to Reserve</h3>
               <p className="text-[#9CA3AF] mb-8">
-                The quickest way to secure your table is to give us a call. We're happy to help with any special requests or dietary requirements.
+                The quickest way to secure your table is to give us a call. We&apos;re happy to help with any special requests or dietary requirements.
               </p>
               <motion.a
                 href="tel:+447438036883"
@@ -907,7 +907,7 @@ Special Requests: ${formData.message}
               </div>
               <h3 className="text-2xl font-bold text-[#F5F0E8] font-serif mb-4">Send an Enquiry</h3>
               <p className="text-[#9CA3AF] mb-8">
-                Prefer to write to us? Fill in your details below and we'll get back to you to confirm your reservation.
+                Prefer to write to us? Fill in your details below and we&apos;ll get back to you to confirm your reservation.
               </p>
 
               {formSubmitted ? (
@@ -917,7 +917,7 @@ Special Requests: ${formData.message}
                   className="bg-[#C9A84C]/20 border border-[#C9A84C] p-6 rounded-lg text-center"
                 >
                   <p className="text-[#C9A84C] font-semibold text-lg">
-                    Thank you! We'll be in touch shortly to confirm your reservation.
+                    Thank you! We&apos;ll be in touch shortly to confirm your reservation.
                   </p>
                 </motion.div>
               ) : (
