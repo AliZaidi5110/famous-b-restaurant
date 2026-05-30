@@ -773,11 +773,7 @@ Special Requests: ${formData.message}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`${img.span} relative overflow-hidden group cursor-pointer`}
-                onClick={() => {
-                  setActiveIndex(index);
-                  setLightboxOpen(true);
-                }}
+                className={`${img.span} relative overflow-hidden group`}
               >
                 <Image
                   src={img.src}
@@ -785,9 +781,7 @@ Special Requests: ${formData.message}
                   fill
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-300 flex items-center justify-center">
-                  <ZoomIn className="text-[#C9A84C] opacity-0 group-hover:opacity-100 w-10 h-10 transition-opacity duration-300" />
-                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
               </motion.div>
             ))}
           </div>
