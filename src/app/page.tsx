@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef } from "react";
-import { Utensils, Globe, Package, MapPin, Flame, ChefHat, Leaf, Phone, Quote, ZoomIn, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Utensils, Globe, Package, MapPin, Flame, ChefHat, Leaf, Phone, Quote, ZoomIn, X, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX, Maximize } from "lucide-react";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -23,6 +23,17 @@ export default function Home() {
     message: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Video player state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [showControls, setShowControls] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const images = [
     "/home_img_1.jpg",
@@ -77,6 +88,117 @@ Special Requests: ${formData.message}
     window.location.href = `mailto:FAMOUSEDENENE@ROCKETMAIL.COM?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setFormSubmitted(true);
   };
+
+  // Video player handlers
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+      setShowOverlay(false);
+    }
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+    }
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (videoRef.current) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percentage = x / rect.width;
+      videoRef.current.currentTime = percentage * duration;
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume;
+      videoRef.current.muted = newVolume === 0;
+      setIsMuted(newVolume === 0);
+    }
+  };
+
+  const toggleFullscreen = () => {
+    if (videoRef.current) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        videoRef.current.requestFullscreen();
+      }
+    }
+  };
+
+  const handleMouseMove = () => {
+    setShowControls(true);
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    if (isPlaying) {
+      controlsTimeoutRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!videoRef.current) return;
+      switch (e.key.toLowerCase()) {
+        case ' ':
+          e.preventDefault();
+          togglePlay();
+          break;
+        case 'm':
+          toggleMute();
+          break;
+        case 'f':
+          toggleFullscreen();
+          break;
+        case 'arrowleft':
+          if (videoRef.current) {
+            videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 10);
+          }
+          break;
+        case 'arrowright':
+          if (videoRef.current) {
+            videoRef.current.currentTime = Math.min(duration, videoRef.current.currentTime + 10);
+          }
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isPlaying, isMuted, duration, togglePlay, toggleMute, toggleFullscreen]);
 
   return (
     <main className="min-h-screen">
@@ -1041,26 +1163,244 @@ Special Requests: ${formData.message}
         </div>
       </section>
 
-      {/* Video Section */}
-      <section id="video" className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Experience Our Restaurant</h2>
-            <div className="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
-            <p className="text-gray-300">Take a virtual tour of Famous B Restaurant</p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            <video
-              controls
-              className="w-full rounded-lg shadow-2xl"
-              poster="/Album_Cover.jpg"
-            >
-              <source src="/Restaurant_Video.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+      {/* Cinematic Video Section */}
+      <section id="video" className="py-12 md:py-24 bg-[#1a1a1a] relative overflow-hidden">
+        {/* Gold particle dots background */}
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #C9A84C 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Block 1 - Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <div className="inline-block bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-4 py-2 rounded-full text-sm font-semibold mb-6">
+              🎬 Watch Our Story
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4 relative inline-block">
+              See Our Story Come Alive
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="absolute bottom-0 left-0 h-0.5 bg-[#C9A84C]"
+              ></motion.div>
+            </h2>
+            <p className="text-lg md:text-xl text-[#9CA3AF] italic font-serif">
+              A glimpse into the heart of Famous B Restaurant Leeds
+            </p>
+          </motion.div>
+
+          {/* Block 2 - Cinematic Video Player */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-6xl mx-auto mb-12 md:mb-16"
+          >
+            <figure className="relative bg-black rounded-lg overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9' }}>
+              {/* Video Element */}
+              <video
+                ref={videoRef}
+                src="/Restaurant_Video.mp4"
+                poster="/home_img_1.jpg"
+                playsInline
+                preload="metadata"
+                muted={isMuted}
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
+                onMouseMove={handleMouseMove}
+                onClick={togglePlay}
+                className="w-full h-full object-cover"
+              />
+
+              {/* Cinematic Vignette */}
+              <div className="absolute inset-0 pointer-events-none" style={{
+                background: 'radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.7) 100%)'
+              }}></div>
+
+              {/* Block 3 - Thumbnail Overlay */}
+              {showOverlay && (
+                <motion.div
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: showOverlay ? 1 : 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70 flex flex-col items-center justify-center pointer-events-none"
+                >
+                  <div className="text-center">
+                    <motion.div
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="relative mb-8"
+                    >
+                      {/* Ripple rings */}
+                      <div className="absolute inset-0 rounded-full border-2 border-[#C9A84C] animate-ping opacity-50"></div>
+                      <div className="absolute inset-0 rounded-full border-2 border-[#C9A84C] animate-ping opacity-30" style={{ animationDelay: '0.5s' }}></div>
+                      
+                      {/* Play Button */}
+                      <motion.button
+                        onClick={togglePlay}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="relative w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-[#C9A84C] bg-[#C9A84C]/20 flex items-center justify-center pointer-events-auto hover:bg-[#C9A84C]/30 transition-all duration-300"
+                      >
+                        <Play className="w-8 h-8 md:w-10 md:h-10 text-[#C9A84C] ml-1" fill="currentColor" />
+                      </motion.button>
+                    </motion.div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-[#F5F0E8] font-serif mb-2">
+                      Famous B Restaurant Leeds
+                    </h3>
+                    <p className="text-lg text-[#C9A84C]">
+                      Experience the Atmosphere
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Custom Controls Bar */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: showControls ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 md:p-6"
+              >
+                {/* Progress Bar */}
+                <div
+                  onClick={handleProgressClick}
+                  className="w-full h-1 bg-white/20 rounded-full mb-4 cursor-pointer relative group"
+                >
+                  <div
+                    className="h-full bg-[#C9A84C] rounded-full relative"
+                    style={{ width: `${(currentTime / duration) * 100}%` }}
+                  >
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#C9A84C] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </div>
+                </div>
+
+                {/* Controls Row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    {/* Play/Pause Button */}
+                    <motion.button
+                      onClick={togglePlay}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-[#C9A84C] hover:text-white transition-colors"
+                    >
+                      {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+                    </motion.button>
+
+                    {/* Time Display */}
+                    <span className="text-white text-sm font-mono">
+                      {formatTime(currentTime)} / {formatTime(duration)}
+                    </span>
+
+                    {/* Volume Control */}
+                    <div className="flex items-center gap-2 group">
+                      <motion.button
+                        onClick={toggleMute}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="text-[#C9A84C] hover:text-white transition-colors"
+                      >
+                        {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                      </motion.button>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={volume}
+                        onChange={handleVolumeChange}
+                        className="w-0 group-hover:w-20 h-1 bg-white/20 rounded-full appearance-none cursor-pointer transition-all duration-300 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-[#C9A84C] [&::-webkit-slider-thumb]:rounded-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Fullscreen Button */}
+                  <motion.button
+                    onClick={toggleFullscreen}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-[#C9A84C] hover:text-white transition-colors"
+                  >
+                    <Maximize className="w-6 h-6" />
+                  </motion.button>
+                </div>
+              </motion.div>
+            </figure>
+            <figcaption className="sr-only">
+              Video showcasing Famous B Restaurant Leeds atmosphere and authentic Nigerian cuisine
+            </figcaption>
+          </motion.div>
+
+          {/* Block 4 - Feature Highlights Row */}
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            {[
+              { icon: <Utensils className="w-8 h-8" />, title: 'Authentic Nigerian Food', desc: 'Traditional recipes passed down through generations' },
+              { icon: <ChefHat className="w-8 h-8" />, title: 'Expertly Crafted Dishes', desc: 'Each plate prepared with love and expertise' },
+              { icon: <MapPin className="w-8 h-8" />, title: 'Leeds City Centre', desc: 'Conveniently located in the heart of Leeds' }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                className="bg-[#111111] p-6 md:p-8 rounded-lg border-t-4 border-[#C9A84C] text-center"
+              >
+                <div className="text-[#C9A84C] mb-4 flex justify-center">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-bold text-[#F5F0E8] font-serif mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-[#9CA3AF] text-sm">
+                  {feature.desc}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
+
+        {/* Block 5 - Quote Over Video Background */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-12 md:mt-16 relative"
+        >
+          <div className="absolute inset-0">
+            <Image
+              src="/home_img_1.jpg"
+              alt="Restaurant background"
+              fill
+              className="object-cover blur-sm"
+            />
+            <div className="absolute inset-0 bg-black/75"></div>
+          </div>
+          <div className="relative z-10 py-16 md:py-24 px-4 text-center">
+            <Quote className="w-16 h-16 md:w-24 md:h-24 text-[#C9A84C] mx-auto mb-6 opacity-30" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="max-w-4xl mx-auto"
+            >
+              <p className="text-2xl md:text-4xl text-[#F5F0E8] font-serif italic leading-relaxed mb-8">
+                Every dish we serve carries the soul of authentic Nigerian tradition
+              </p>
+              <p className="text-[#C9A84C] font-serif text-lg">— Famous B Restaurant Leeds</p>
+            </motion.div>
+          </div>
+        </motion.div>
       </section>
 
       {/* Contact Section */}
