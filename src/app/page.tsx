@@ -1208,7 +1208,7 @@ Special Requests: ${formData.message}
               <video
                 ref={videoRef}
                 src="/Restaurant_Video.mp4"
-                poster="/home_img_1.jpg"
+                poster="/Album_Cover.jpg"
                 playsInline
                 preload="metadata"
                 muted={isMuted}
