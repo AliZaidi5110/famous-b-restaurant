@@ -241,10 +241,10 @@ Event Details: ${venueFormData.eventDetails}
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20 md:h-24">
+          <div className="flex justify-between items-center h-16 md:h-20">
             <div className="flex-shrink-0">
               <button onClick={() => scrollToSection("home")} className="flex items-center">
-                <div className="relative w-[220px] h-[90px] md:w-[280px] md:h-[115px]">
+                <div className="relative w-[110px] h-[46px] md:w-[180px] md:h-[75px]">
                   <Image
                     src="/FamousB_Restaurant_Leeds_logo.png"
                     alt="Famous B Restaurant Leeds Logo"
@@ -319,32 +319,41 @@ Event Details: ${venueFormData.eventDetails}
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ y: "-100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-100%" }}
                 transition={{ duration: 0.3 }}
-                className="md:hidden bg-[#1a1a1a] pb-8"
+                className="fixed inset-0 z-[100] bg-[#1a1a1a] flex flex-col md:hidden"
+                onClick={() => setIsMenuOpen(false)}
               >
-                <div className="flex flex-col items-center space-y-6 pt-8">
-                  <button onClick={() => scrollToSection("home")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Home</button>
-                  <button onClick={() => scrollToSection("menu")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Menu</button>
-                  <button onClick={() => scrollToSection("about")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">About</button>
-                  <button onClick={() => scrollToSection("gallery")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Gallery</button>
-                  <button onClick={() => scrollToSection("venue")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Venue Hire</button>
-                  <button onClick={() => scrollToSection("contact")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Contact</button>
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  className="absolute top-4 right-4 text-[#C9A84C] z-10"
+                >
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <div className="flex flex-col items-center justify-center h-full gap-6" onClick={(e) => e.stopPropagation()}>
+                  <button onClick={() => { scrollToSection("home"); setIsMenuOpen(false); }} className="text-2xl font-bold text-[#F5F0E8] hover:text-[#C9A84C] transition">Home</button>
+                  <button onClick={() => { scrollToSection("menu"); setIsMenuOpen(false); }} className="text-2xl font-bold text-[#F5F0E8] hover:text-[#C9A84C] transition">Menu</button>
+                  <button onClick={() => { scrollToSection("about"); setIsMenuOpen(false); }} className="text-2xl font-bold text-[#F5F0E8] hover:text-[#C9A84C] transition">About</button>
+                  <button onClick={() => { scrollToSection("gallery"); setIsMenuOpen(false); }} className="text-2xl font-bold text-[#F5F0E8] hover:text-[#C9A84C] transition">Gallery</button>
+                  <button onClick={() => { scrollToSection("venue"); setIsMenuOpen(false); }} className="text-2xl font-bold text-[#F5F0E8] hover:text-[#C9A84C] transition">Venue Hire</button>
+                  <button onClick={() => { scrollToSection("contact"); setIsMenuOpen(false); }} className="text-2xl font-bold text-[#F5F0E8] hover:text-[#C9A84C] transition">Contact</button>
                   <motion.button
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => scrollToSection("booking")}
-                    className="w-full max-w-xs border-2 border-[#C9A84C] text-[#C9A84C] px-8 py-3 font-semibold tracking-wider hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
-                  >
-                    Book a Table
-                  </motion.button>
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => scrollToSection("venue")}
+                    onClick={() => { scrollToSection("venue"); setIsMenuOpen(false); }}
                     className="w-full max-w-xs border-2 border-[#C9A84C] text-[#C9A84C] px-8 py-3 font-semibold tracking-wider hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
                   >
                     Hire Our Venue
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => { scrollToSection("booking"); setIsMenuOpen(false); }}
+                    className="w-full max-w-xs border-2 border-[#C9A84C] text-[#C9A84C] px-8 py-3 font-semibold tracking-wider hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
+                  >
+                    Book a Table
                   </motion.button>
                 </div>
               </motion.div>
@@ -353,61 +362,42 @@ Event Details: ${venueFormData.eventDetails}
         </div>
       </nav>
 
-      {/* Hero Section with Image Slider */}
-      <section id="home" className="relative w-full h-[100dvh] min-h-[100vh] overflow-hidden">
-        {images.map((img, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Image
-              src={img}
-              alt={`Famous B Restaurant ${index + 1}`}
-              fill
-              className="object-cover object-center"
-              priority
-            />
-            <div className="absolute inset-0 bg-black/50" />
-          </div>
-        ))}
+      {/* Hero Section with Video Background */}
+      <section id="home" className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        >
+          <source src="/Restaurant_Video.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/40 to-black/70 z-10" />
         
-        <div className="relative z-10 h-full flex items-center justify-center text-center px-4">
+        <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white mb-4">
               Welcome to Famous B Restaurant
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-8 italic">
               Authentic Cuisine in the Heart of Leeds
             </p>
             <button
               onClick={() => scrollToSection("menu")}
-              className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition transform hover:scale-105"
+              className="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-bold transition transform hover:scale-105"
             >
               View Our Menu
             </button>
           </div>
-        </div>
-
-        {/* Slider Dots */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition ${
-                index === currentSlide ? "bg-amber-500" : "bg-white/50"
-              }`}
-            />
-          ))}
         </div>
       </section>
 
       {/* About Section */}
       <section id="about" className="bg-[#1a1a1a]">
         {/* Block 1 - Cinematic Banner */}
-        <div className="relative h-[350px] md:h-[500px] overflow-hidden">
+        <div className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden">
           <Image
             src="/home_img_1.jpg"
             alt="Famous B Restaurant Leeds interior"
@@ -422,7 +412,7 @@ Event Details: ${venueFormData.eventDetails}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4"
+              className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4"
             >
               More Than a Meal.
             </motion.h2>
@@ -431,7 +421,7 @@ Event Details: ${venueFormData.eventDetails}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-6"
+              className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-6"
             >
               It&apos;s an Experience.
             </motion.h2>
@@ -447,7 +437,7 @@ Event Details: ${venueFormData.eventDetails}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-[#9CA3AF] text-lg max-w-2xl"
+              className="text-[#9CA3AF] text-sm sm:text-base md:text-lg max-w-2xl"
             >
               Authentic Nigerian cuisine served with love in the heart of Leeds
             </motion.p>
@@ -455,8 +445,8 @@ Event Details: ${venueFormData.eventDetails}
         </div>
 
         {/* Block 2 - Our Story */}
-        <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -464,7 +454,7 @@ Event Details: ${venueFormData.eventDetails}
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="relative h-[400px] rotate-2 ring-4 ring-[#C9A84C] rounded-lg overflow-hidden">
+              <div className="relative h-[280px] sm:h-[350px] md:h-[400px] lg:h-[500px] rotate-2 ring-4 ring-[#C9A84C] rounded-lg overflow-hidden">
                 <Image
                   src="/home_img_2.jpg"
                   alt="Famous B Restaurant Leeds food"
@@ -479,30 +469,30 @@ Event Details: ${venueFormData.eventDetails}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif mb-6">Our Story</h2>
-              <p className="text-[#F5F0E8] text-lg leading-relaxed mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif mb-6">Our Story</h2>
+              <p className="text-[#F5F0E8] text-sm sm:text-base md:text-lg leading-relaxed mb-6">
                 Famous B Restaurant was born from a deep passion for authentic Nigerian flavours and a burning desire to bring the warmth of West African hospitality to the heart of Leeds. Every dish we serve is crafted with love, tradition, and the finest ingredients — from our rich Pounded Yam and Egusi to our perfectly seasoned Suya and slow-cooked Pepper Soup.
               </p>
-              <p className="text-[#F5F0E8] text-lg leading-relaxed mb-8">
+              <p className="text-[#F5F0E8] text-sm sm:text-base md:text-lg leading-relaxed mb-8">
                 We are more than a restaurant. We are a celebration of culture, community, and cuisine.
               </p>
               <div className="h-px bg-[#C9A84C] mb-6"></div>
               <div className="inline-flex items-center gap-2 bg-[#2a2a2a] px-4 py-2 rounded-full">
                 <MapPin className="w-5 h-5 text-[#C9A84C]" />
-                <span className="text-[#F5F0E8]">1st Floor, 32 Regent St, Leeds LS2 7QN</span>
+                <span className="text-[#F5F0E8] text-sm sm:text-base">1st Floor, 32 Regent St, Leeds LS2 7QN</span>
               </div>
             </motion.div>
           </div>
         </div>
 
         {/* Block 3 - Stats / Highlights Bar */}
-        <div className="bg-[#111111] border-t border-[#C9A84C] py-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="bg-[#111111] border-t border-[#C9A84C] py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {[
-              { icon: <Utensils className="w-12 h-12 md:w-16 md:h-16 mx-auto" />, label: "100%", desc: "Homemade Recipes" },
-              { icon: <Globe className="w-12 h-12 md:w-16 md:h-16 mx-auto" />, label: "Authentic", desc: "Nigerian & West African Cuisine" },
-              { icon: <Package className="w-12 h-12 md:w-16 md:h-16 mx-auto" />, label: "Collection", desc: "Only — No Delivery" },
-              { icon: <MapPin className="w-12 h-12 md:w-16 md:h-16 mx-auto" />, label: "Leeds", desc: "City Centre, LS2" },
+              { icon: <Utensils className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 mx-auto" />, label: "100%", desc: "Homemade Recipes" },
+              { icon: <Globe className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 mx-auto" />, label: "Authentic", desc: "Nigerian & West African Cuisine" },
+              { icon: <Package className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 mx-auto" />, label: "Collection", desc: "Only — No Delivery" },
+              { icon: <MapPin className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 mx-auto" />, label: "Leeds", desc: "City Centre, LS2" },
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -510,25 +500,25 @@ Event Details: ${venueFormData.eventDetails}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center"
+                className="text-center p-3 sm:p-4"
               >
                 <div className="text-[#C9A84C] mb-4">{stat.icon}</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif mb-2">{stat.label}</h3>
-                <p className="text-[#9CA3AF] text-sm">{stat.desc}</p>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif mb-2">{stat.label}</h3>
+                <p className="text-[#9CA3AF] text-xs sm:text-sm">{stat.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
 
         {/* Block 4 - Why Choose Us */}
-        <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif mb-12 text-center">Why Choose Us</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif mb-8 md:mb-12 text-center">Why Choose Us</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {[
-              { icon: <Flame className="w-10 h-10" />, title: "Authentic Recipes", desc: "Traditional Nigerian dishes passed down through generations" },
-              { icon: <ChefHat className="w-10 h-10" />, title: "Expertly Crafted", desc: "Every dish cooked fresh to order with care and skill" },
-              { icon: <Leaf className="w-10 h-10" />, title: "Quality Ingredients", desc: "Only the finest and freshest ingredients in every meal" },
-              { icon: <MapPin className="w-10 h-10" />, title: "Easy to Find", desc: "Conveniently located on Regent Street, Leeds city centre" },
+              { icon: <Flame className="w-8 h-8 sm:w-10 sm:h-10" />, title: "Authentic Recipes", desc: "Traditional Nigerian dishes passed down through generations" },
+              { icon: <ChefHat className="w-8 h-8 sm:w-10 sm:h-10" />, title: "Expertly Crafted", desc: "Every dish cooked fresh to order with care and skill" },
+              { icon: <Leaf className="w-8 h-8 sm:w-10 sm:h-10" />, title: "Quality Ingredients", desc: "Only the finest and freshest ingredients in every meal" },
+              { icon: <MapPin className="w-8 h-8 sm:w-10 sm:h-10" />, title: "Easy to Find", desc: "Conveniently located on Regent Street, Leeds city centre" },
             ].map((feature, index) => (
               <motion.div
                 key={index}
@@ -537,18 +527,18 @@ Event Details: ${venueFormData.eventDetails}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="bg-[#2a2a2a] p-6 rounded-lg border-t-2 border-[#C9A84C] hover:border-[#C9A84C] transition-all"
+                className="bg-[#2a2a2a] p-4 sm:p-6 rounded-lg border-t-2 border-[#C9A84C] hover:border-[#C9A84C] transition-all"
               >
                 <div className="text-[#C9A84C] mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold text-[#F5F0E8] font-serif mb-2">{feature.title}</h3>
-                <p className="text-[#9CA3AF] text-sm">{feature.desc}</p>
+                <h3 className="text-lg sm:text-xl font-bold text-[#F5F0E8] font-serif mb-2">{feature.title}</h3>
+                <p className="text-[#9CA3AF] text-xs sm:text-sm">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
 
         {/* Block 5 - Quote / Mission Statement */}
-        <div className="bg-[#111111] border-l-4 border-[#C9A84C] py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="bg-[#111111] border-l-4 border-[#C9A84C] py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
           <div className="absolute top-4 left-8 text-[#C9A84C] opacity-10">
             <Quote className="w-48 h-48 md:w-64 md:h-64" />
           </div>
@@ -559,15 +549,15 @@ Event Details: ${venueFormData.eventDetails}
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center relative z-10"
           >
-            <p className="text-2xl md:text-4xl text-[#F5F0E8] font-serif italic leading-relaxed mb-8">
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#F5F0E8] font-serif italic leading-relaxed mb-6 md:mb-8">
               &quot;We cook with the same love and tradition our mothers cooked with. Every plate is a piece of home.&quot;
             </p>
-            <p className="text-[#C9A84C] font-serif text-lg">— Famous B Restaurant Leeds</p>
+            <p className="text-[#C9A84C] font-serif text-base sm:text-lg">— Famous B Restaurant Leeds</p>
           </motion.div>
         </div>
 
         {/* Block 6 - Visit Us CTA Banner */}
-        <div className="bg-gradient-to-r from-[#C9A84C] to-[#8B6914] py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="bg-gradient-to-r from-[#C9A84C] to-[#8B6914] py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 relative">
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -576,20 +566,20 @@ Event Details: ${venueFormData.eventDetails}
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center relative z-10"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-8">Ready to experience it for yourself?</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-6 md:mb-8">Ready to experience it for yourself?</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection("menu")}
-                className="bg-[#1a1a1a] text-[#C9A84C] px-8 py-4 rounded-lg font-bold text-lg hover:bg-black transition"
+                className="w-full sm:w-auto bg-[#1a1a1a] text-[#C9A84C] px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:bg-black transition"
               >
                 View Our Menu
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-[#1a1a1a] text-[#1a1a1a] px-8 py-4 rounded-lg font-bold text-lg hover:bg-[#1a1a1a] hover:text-[#C9A84C] transition"
+                className="w-full sm:w-auto border-2 border-[#1a1a1a] text-[#1a1a1a] px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:bg-[#1a1a1a] hover:text-[#C9A84C] transition"
               >
                 Get Directions
               </motion.button>
@@ -609,25 +599,25 @@ Event Details: ${venueFormData.eventDetails}
       </section>
 
       {/* Menu Section */}
-      <section id="menu" className="py-20 bg-[#1a1a1a]">
+      <section id="menu" className="py-12 sm:py-16 md:py-20 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#F5F0E8] mb-4 font-serif">Our Menu</h2>
-            <div className="w-24 h-1 bg-[#C9A84C] mx-auto mb-6"></div>
-            <p className="text-[#9CA3AF] mb-8">Explore our delicious selection of authentic dishes</p>
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F5F0E8] mb-4 font-serif">Our Menu</h2>
+            <div className="w-16 sm:w-20 md:w-24 h-1 bg-[#C9A84C] mx-auto mb-4 md:mb-6"></div>
+            <p className="text-[#9CA3AF] text-sm sm:text-base md:text-lg mb-6 md:mb-8">Explore our delicious selection of authentic dishes</p>
           </div>
 
           {/* Rice Dishes */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-[#C9A84C] mb-8 font-serif">Rice Dishes</h3>
-            <div className="space-y-6">
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#C9A84C] mb-6 md:mb-8 font-serif">Rice Dishes</h3>
+            <div className="space-y-4 md:space-y-6">
               {[
                 { name: "Jollof Rice", price: "£15.00", desc: "Served With Chicken, Beef Or Fish", img: "/jollof_rice.jpg" },
                 { name: "White Rice", price: "£15.00", desc: "Served with stew and assorted meat", img: "/white_rice.jpg" },
                 { name: "Fried Rice", price: "£15.00", desc: "Served With Chicken, Beef Or Fish", img: "/fried_rice.jpg" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="relative w-20 h-20 flex-shrink-0">
+                <div key={index} className="flex items-center gap-2 sm:gap-4 py-3 sm:py-4 px-2 sm:px-3 md:px-6">
+                  <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
                     <Image
                       src={item.img}
                       alt={item.name}
@@ -636,20 +626,20 @@ Event Details: ${venueFormData.eventDetails}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[#F5F0E8] font-bold font-serif text-lg">{item.name}</h4>
-                    <p className="text-[#9CA3AF] italic text-sm">{item.desc}</p>
+                    <h4 className="text-[#F5F0E8] font-bold font-serif text-sm sm:text-base md:text-lg truncate">{item.name}</h4>
+                    <p className="hidden sm:block text-[#9CA3AF] italic text-xs sm:text-sm truncate">{item.desc}</p>
                   </div>
-                  <div className="flex-1 border-b border-dotted border-[#C9A84C] mx-4"></div>
-                  <span className="text-[#C9A84C] font-bold text-lg font-serif whitespace-nowrap">{item.price}</span>
+                  <div className="hidden sm:flex flex-1 border-b border-dotted border-[#C9A84C] mx-2 md:mx-4"></div>
+                  <span className="text-[#C9A84C] font-bold text-sm sm:text-base md:text-lg font-serif whitespace-nowrap ml-auto">{item.price}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Main Dishes */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-[#C9A84C] mb-8 font-serif">Main Dishes</h3>
-            <div className="space-y-6">
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#C9A84C] mb-6 md:mb-8 font-serif">Main Dishes</h3>
+            <div className="space-y-4 md:space-y-6">
               {[
                 { name: "Pounded Yam", price: "£15.00", desc: "Served with Egusi, Ogbono, Okra, Banga, Blacksoup or Vegetable Soup", img: "/pounded_yam.jpg" },
                 { name: "Eba", price: "£15.00", desc: "Served with Egusi, Ogbono, Okra, Banga, Blacksoup or Vegetable Soup", img: "/eba.jpg" },
@@ -672,8 +662,8 @@ Event Details: ${venueFormData.eventDetails}
                 { name: "Yam with Egg Sauce", price: "£13.00", desc: "", img: "/yamwitheggsauce.jpg" },
                 { name: "Portion of Smoked Turkey", price: "£13.00", desc: "Served with Tomato Sauce", img: "/portionofsmokedturkey.jpg" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="relative w-20 h-20 flex-shrink-0">
+                <div key={index} className="flex items-center gap-2 sm:gap-4 py-3 sm:py-4 px-2 sm:px-3 md:px-6">
+                  <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
                     <Image
                       src={item.img}
                       alt={item.name}
@@ -682,26 +672,26 @@ Event Details: ${venueFormData.eventDetails}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[#F5F0E8] font-bold font-serif text-lg">{item.name}</h4>
-                    {item.desc && <p className="text-[#9CA3AF] italic text-sm">{item.desc}</p>}
+                    <h4 className="text-[#F5F0E8] font-bold font-serif text-sm sm:text-base md:text-lg truncate">{item.name}</h4>
+                    {item.desc && <p className="hidden sm:block text-[#9CA3AF] italic text-xs sm:text-sm truncate">{item.desc}</p>}
                   </div>
-                  <div className="flex-1 border-b border-dotted border-[#C9A84C] mx-4"></div>
-                  <span className="text-[#C9A84C] font-bold text-lg font-serif whitespace-nowrap">{item.price}</span>
+                  <div className="hidden sm:flex flex-1 border-b border-dotted border-[#C9A84C] mx-2 md:mx-4"></div>
+                  <span className="text-[#C9A84C] font-bold text-sm sm:text-base md:text-lg font-serif whitespace-nowrap ml-auto">{item.price}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Soup Dishes */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-[#C9A84C] mb-8 font-serif">Soup Dishes</h3>
-            <div className="space-y-6">
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#C9A84C] mb-6 md:mb-8 font-serif">Soup Dishes</h3>
+            <div className="space-y-4 md:space-y-6">
               {[
                 { name: "Assorted Pepper Soup", price: "£12.00", desc: "", img: "/assorted_pepper_soup.jpg" },
                 { name: "Fish Pepper Soup", price: "£14.00", desc: "", img: "/fish_pepper_soup.jpg" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="relative w-20 h-20 flex-shrink-0">
+                <div key={index} className="flex items-center gap-2 sm:gap-4 py-3 sm:py-4 px-2 sm:px-3 md:px-6">
+                  <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
                     <Image
                       src={item.img}
                       alt={item.name}
@@ -710,28 +700,28 @@ Event Details: ${venueFormData.eventDetails}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[#F5F0E8] font-bold font-serif text-lg">{item.name}</h4>
-                    {item.desc && <p className="text-[#9CA3AF] italic text-sm">{item.desc}</p>}
+                    <h4 className="text-[#F5F0E8] font-bold font-serif text-sm sm:text-base md:text-lg truncate">{item.name}</h4>
+                    {item.desc && <p className="hidden sm:block text-[#9CA3AF] italic text-xs sm:text-sm truncate">{item.desc}</p>}
                   </div>
-                  <div className="flex-1 border-b border-dotted border-[#C9A84C] mx-4"></div>
-                  <span className="text-[#C9A84C] font-bold text-lg font-serif whitespace-nowrap">{item.price}</span>
+                  <div className="hidden sm:flex flex-1 border-b border-dotted border-[#C9A84C] mx-2 md:mx-4"></div>
+                  <span className="text-[#C9A84C] font-bold text-sm sm:text-base md:text-lg font-serif whitespace-nowrap ml-auto">{item.price}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Fish Dishes */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-[#C9A84C] mb-8 font-serif">Fish Dishes</h3>
-            <div className="space-y-6">
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#C9A84C] mb-6 md:mb-8 font-serif">Fish Dishes</h3>
+            <div className="space-y-4 md:space-y-6">
               {[
                 { name: "Steamed Yellow Croaker", price: "from £25.00", desc: "", img: "/streamed_yellow_croaker.jpg" },
                 { name: "Tilapia", price: "£20.00", desc: "", img: "/Tilapia.jpg" },
                 { name: "Fried Fish", price: "£12.00", desc: "", img: "/Fried_Fish(2).jpg" },
                 { name: "Fried Hake Fish", price: "£12.00", desc: "Served with tomato sauce", img: "/friedhakefish.jpg" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="relative w-20 h-20 flex-shrink-0">
+                <div key={index} className="flex items-center gap-2 sm:gap-4 py-3 sm:py-4 px-2 sm:px-3 md:px-6">
+                  <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
                     <Image
                       src={item.img}
                       alt={item.name}
@@ -740,20 +730,20 @@ Event Details: ${venueFormData.eventDetails}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[#F5F0E8] font-bold font-serif text-lg">{item.name}</h4>
-                    {item.desc && <p className="text-[#9CA3AF] italic text-sm">{item.desc}</p>}
+                    <h4 className="text-[#F5F0E8] font-bold font-serif text-sm sm:text-base md:text-lg truncate">{item.name}</h4>
+                    {item.desc && <p className="hidden sm:block text-[#9CA3AF] italic text-xs sm:text-sm truncate">{item.desc}</p>}
                   </div>
-                  <div className="flex-1 border-b border-dotted border-[#C9A84C] mx-4"></div>
-                  <span className="text-[#C9A84C] font-bold text-lg font-serif whitespace-nowrap">{item.price}</span>
+                  <div className="hidden sm:flex flex-1 border-b border-dotted border-[#C9A84C] mx-2 md:mx-4"></div>
+                  <span className="text-[#C9A84C] font-bold text-sm sm:text-base md:text-lg font-serif whitespace-nowrap ml-auto">{item.price}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Soft Drinks */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-[#C9A84C] mb-8 font-serif">Soft Drinks</h3>
-            <div className="space-y-6">
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#C9A84C] mb-6 md:mb-8 font-serif">Soft Drinks</h3>
+            <div className="space-y-4 md:space-y-6">
               {[
                 { name: "Water Bottle 500ml", price: "£1.00", img: "/water_bottle.jpg" },
                 { name: "Malta Guinness", price: "£3.00", img: "/malta_guiness.jpg" },
@@ -766,8 +756,8 @@ Event Details: ${venueFormData.eventDetails}
                 { name: "Orange Juice", price: "£5.00", img: "/orange_juice.jpg" },
                 { name: "Cranberry Juice", price: "£5.00", img: "/Cranberry.jpg" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="relative w-20 h-20 flex-shrink-0">
+                <div key={index} className="flex items-center gap-2 sm:gap-4 py-3 sm:py-4 px-2 sm:px-3 md:px-6">
+                  <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
                     <Image
                       src={item.img}
                       alt={item.name}
@@ -776,21 +766,21 @@ Event Details: ${venueFormData.eventDetails}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[#F5F0E8] font-bold font-serif text-lg">{item.name}</h4>
+                    <h4 className="text-[#F5F0E8] font-bold font-serif text-sm sm:text-base md:text-lg truncate">{item.name}</h4>
                   </div>
-                  <div className="flex-1 border-b border-dotted border-[#C9A84C] mx-4"></div>
-                  <span className="text-[#C9A84C] font-bold text-lg font-serif whitespace-nowrap">{item.price}</span>
+                  <div className="hidden sm:flex flex-1 border-b border-dotted border-[#C9A84C] mx-2 md:mx-4"></div>
+                  <span className="text-[#C9A84C] font-bold text-sm sm:text-base md:text-lg font-serif whitespace-nowrap ml-auto">{item.price}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mt-12 bg-[#2a2a2a] p-8 rounded-lg text-center">
-            <h3 className="text-2xl font-bold text-[#C9A84C] mb-4 font-serif">Collection Only</h3>
-            <p className="text-[#9CA3AF] mb-4">
+          <div className="mt-8 md:mt-12 bg-[#2a2a2a] p-4 sm:p-6 md:p-8 rounded-lg text-center">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#C9A84C] mb-3 md:mb-4 font-serif">Collection Only</h3>
+            <p className="text-[#9CA3AF] text-sm sm:text-base mb-3 md:mb-4">
               We offer collection service only. Visit us at our location to collect your freshly prepared orders.
             </p>
-            <p className="text-[#9CA3AF]">
+            <p className="text-[#9CA3AF] text-sm sm:text-base">
               For delivery, order via <a href="https://www.just-eat.co.uk/restaurants-famous-b-restaurant-leeds/menu" target="_blank" rel="noopener noreferrer" className="text-[#C9A84C] hover:underline font-semibold">Just Eat</a>
             </p>
           </div>
@@ -798,26 +788,26 @@ Event Details: ${venueFormData.eventDetails}
       </section>
 
       {/* Gallery Section */}
-      <section id="gallery" className="py-20 bg-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="gallery" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#1a1a1a]">
+        <div className="max-w-7xl mx-auto">
           {/* Gallery Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <div className="h-px bg-[#C9A84C] w-24"></div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif">A Taste of Famous B</h2>
-              <div className="h-px bg-[#C9A84C] w-24"></div>
+            <div className="flex items-center justify-center gap-2 md:gap-4 mb-4">
+              <div className="h-px bg-[#C9A84C] w-12 md:w-24"></div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif">A Taste of Famous B</h2>
+              <div className="h-px bg-[#C9A84C] w-12 md:w-24"></div>
             </div>
-            <p className="text-[#C9A84C] italic text-lg">Step inside and see what makes us special</p>
+            <p className="text-[#C9A84C] italic text-base sm:text-lg">Step inside and see what makes us special</p>
           </motion.div>
 
           {/* Gallery Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[200px]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
             {galleryImages.map((img, index) => (
               <motion.div
                 key={index}
@@ -825,13 +815,13 @@ Event Details: ${venueFormData.eventDetails}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`${img.span} relative overflow-hidden group`}
+                className="relative aspect-[4/3] overflow-hidden group"
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
               </motion.div>
@@ -844,14 +834,14 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mt-16 text-center"
+            className="mt-8 md:mt-16 text-center"
           >
-            <p className="text-[#9CA3AF] mb-6">Follow our journey on social media</p>
-            <div className="flex justify-center gap-4">
-              <a href="#" className="w-12 h-12 rounded-full border-2 border-[#C9A84C] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#1a1a1a] transition text-2xl">
+            <p className="text-[#9CA3AF] text-sm sm:text-base mb-4 md:mb-6">Follow our journey on social media</p>
+            <div className="flex justify-center gap-3 sm:gap-4">
+              <a href="#" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#C9A84C] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#1a1a1a] transition text-xl sm:text-2xl">
                 📷
               </a>
-              <a href="#" className="w-12 h-12 rounded-full border-2 border-[#C9A84C] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#1a1a1a] transition text-2xl">
+              <a href="#" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#C9A84C] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#1a1a1a] transition text-xl sm:text-2xl">
                 📘
               </a>
             </div>
@@ -867,14 +857,14 @@ Event Details: ${venueFormData.eventDetails}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
+            className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center"
             onClick={() => setLightboxOpen(false)}
           >
             <button
               onClick={() => setLightboxOpen(false)}
               className="absolute top-4 right-4 text-[#C9A84C] hover:text-white transition z-10"
             >
-              <X className="w-10 h-10" />
+              <X className="w-10 h-10 sm:w-12 sm:h-12" />
             </button>
             
             <button
@@ -884,7 +874,7 @@ Event Details: ${venueFormData.eventDetails}
               }}
               className="absolute left-4 text-[#C9A84C] hover:text-white transition z-10"
             >
-              <ChevronLeft className="w-12 h-12" />
+              <ChevronLeft className="w-10 h-10 sm:w-12 sm:h-12" />
             </button>
             
             <button
@@ -894,7 +884,7 @@ Event Details: ${venueFormData.eventDetails}
               }}
               className="absolute right-4 text-[#C9A84C] hover:text-white transition z-10"
             >
-              <ChevronRight className="w-12 h-12" />
+              <ChevronRight className="w-10 h-10 sm:w-12 sm:h-12" />
             </button>
             
             <motion.div
@@ -902,7 +892,7 @@ Event Details: ${venueFormData.eventDetails}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
               transition={{ duration: 0.3 }}
-              className="relative max-w-5xl max-h-[90vh] px-4"
+              className="relative max-w-[95vw] max-h-[85vh] px-4"
               onClick={(e) => e.stopPropagation()}
             >
               <Image
@@ -910,7 +900,7 @@ Event Details: ${venueFormData.eventDetails}
                 alt={galleryImages[activeIndex].alt}
                 width={1200}
                 height={800}
-                className="object-contain max-h-[90vh] w-auto"
+                className="object-contain max-h-[85vh] w-auto"
               />
             </motion.div>
           </motion.div>
@@ -918,7 +908,7 @@ Event Details: ${venueFormData.eventDetails}
       </AnimatePresence>
 
       {/* Owner Section */}
-      <section id="our-story" className="py-20 bg-[#111111] relative overflow-hidden">
+      <section id="our-story" className="py-12 sm:py-16 md:py-20 bg-[#111111] relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #C9A84C 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -926,13 +916,13 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif mb-4">The Face Behind Famous B</h2>
-            <div className="w-24 h-1 bg-[#C9A84C] mx-auto"></div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#C9A84C] font-serif mb-4">The Face Behind Famous B</h2>
+            <div className="w-16 sm:w-20 md:w-24 h-1 bg-[#C9A84C] mx-auto"></div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Owner Photo */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -941,8 +931,8 @@ Event Details: ${venueFormData.eventDetails}
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="relative md:hidden">
-                <div className="relative w-80 h-80 mx-auto">
+              <div className="relative md:hidden flex flex-col items-center">
+                <div className="relative w-48 h-48 sm:w-64 sm:h-64 mx-auto">
                   <Image
                     src="/owner's.jpg"
                     alt="Owner of Famous B Restaurant Leeds"
@@ -953,11 +943,11 @@ Event Details: ${venueFormData.eventDetails}
               </div>
               <div className="hidden md:block relative">
                 {/* Gold corner brackets */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-[#C9A84C]"></div>
-                <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-[#C9A84C]"></div>
-                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-[#C9A84C]"></div>
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-[#C9A84C]"></div>
-                <div className="relative h-[600px] border-4 border-[#C9A84C] rounded-lg overflow-hidden">
+                <div className="absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-l-4 border-[#C9A84C]"></div>
+                <div className="absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-r-4 border-[#C9A84C]"></div>
+                <div className="absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-l-4 border-[#C9A84C]"></div>
+                <div className="absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-r-4 border-[#C9A84C]"></div>
+                <div className="relative h-[500px] lg:h-[600px] border-4 border-[#C9A84C] rounded-lg overflow-hidden">
                   <Image
                     src="/owner's.jpg"
                     alt="Owner of Famous B Restaurant Leeds"
@@ -974,25 +964,26 @@ Event Details: ${venueFormData.eventDetails}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
+              className="text-center md:text-left"
             >
-              <p className="text-[#C9A84C] font-semibold mb-2">Founder & Owner</p>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#F5F0E8] font-serif mb-6">Famous B Restaurant</h3>
-              <p className="text-[#F5F0E8] text-lg leading-relaxed mb-8">
+              <p className="text-[#C9A84C] font-semibold text-sm sm:text-base mb-2">Founder & Owner</p>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F5F0E8] font-serif mb-4 md:mb-6">Famous B Restaurant</h3>
+              <p className="text-[#F5F0E8] text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-8">
                 Famous B Restaurant was built on a foundation of love, culture, and an unrelenting passion for authentic Nigerian cuisine. Growing up surrounded by the rich aromas of West African cooking, I always dreamed of sharing those flavours with the world. Today, right here in Leeds, that dream is alive on every plate we serve. Welcome to our family table.
               </p>
-              <div className="h-px bg-[#C9A84C] mb-8"></div>
-              <div className="space-y-4">
-                <p className="flex items-center gap-3 text-[#F5F0E8]">
+              <div className="h-px bg-[#C9A84C] mb-6 md:mb-8"></div>
+              <div className="space-y-3 md:space-y-4">
+                <p className="flex items-center justify-center md:justify-start gap-3 text-[#F5F0E8] text-sm sm:text-base">
                   <Phone className="w-5 h-5 text-[#C9A84C]" />
                   <a href="tel:+447438036883" className="hover:text-[#C9A84C] transition">+44 7438 036883</a>
                 </p>
-                <p className="flex items-center gap-3 text-[#F5F0E8]">
+                <p className="flex items-center justify-center md:justify-start gap-3 text-[#F5F0E8] text-sm sm:text-base">
                   <span className="text-[#C9A84C]">✉️</span>
-                  <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="hover:text-[#C9A84C] transition">FAMOUSEDENENE@ROCKETMAIL.COM</a>
+                  <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="hover:text-[#C9A84C] transition break-all">FAMOUSEDENENE@ROCKETMAIL.COM</a>
                 </p>
-                <p className="flex items-center gap-3 text-[#F5F0E8]">
+                <p className="flex items-center justify-center md:justify-start gap-3 text-[#F5F0E8] text-sm sm:text-base">
                   <MapPin className="w-5 h-5 text-[#C9A84C]" />
-                  <span>1st Floor, 32 Regent St, Leeds LS2 7QN</span>
+                  <span className="break-all">1st Floor, 32 Regent St, Leeds LS2 7QN</span>
                 </p>
               </div>
             </motion.div>
@@ -1005,29 +996,29 @@ Event Details: ${venueFormData.eventDetails}
         {/* Gold particle dots background */}
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #C9A84C 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 sm:py-16 md:py-24">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12 md:mb-16"
+            className="text-center mb-8 md:mb-12 lg:mb-16"
           >
-            <div className="inline-block bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-4 py-2 rounded-full text-sm font-semibold mb-6">
+            <div className="inline-block bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold mb-4 md:mb-6">
               🏛️ PRIVATE VENUE HIRE
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4">
               Host Your Special Occasion at{' '}
               <span className="text-[#C9A84C]">Famous B Restaurant</span>
             </h2>
-            <p className="text-lg md:text-xl text-[#9CA3AF] italic font-serif max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-[#9CA3AF] italic font-serif max-w-3xl mx-auto">
               From intimate family gatherings to grand celebrations — our venue is the perfect setting for your most memorable moments
             </p>
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <div className="h-px bg-[#C9A84C] w-16 md:w-24"></div>
-              <span className="text-[#C9A84C] text-2xl">✦</span>
-              <div className="h-px bg-[#C9A84C] w-16 md:w-24"></div>
+            <div className="flex items-center justify-center gap-3 md:gap-4 mt-6 md:mt-8">
+              <div className="h-px bg-[#C9A84C] w-12 md:w-24"></div>
+              <span className="text-[#C9A84C] text-xl md:text-2xl">✦</span>
+              <div className="h-px bg-[#C9A84C] w-12 md:w-24"></div>
             </div>
           </motion.div>
 
@@ -1037,7 +1028,7 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative w-full h-[350px] md:h-[500px] rounded-lg overflow-hidden mb-12 md:mb-16"
+            className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden mb-8 md:mb-12 lg:mb-16"
           >
             <Image
               src="/home_img_1.jpg"
@@ -1046,27 +1037,27 @@ Event Details: ${venueFormData.eventDetails}
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/30"></div>
-            <div className="absolute inset-0 p-6 md:p-12 flex flex-col justify-between">
-              <div className="flex justify-between items-start">
-                <div className="bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-3 py-1 rounded-full text-sm font-semibold">
+            <div className="absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-between">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-2">
+                <div className="bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-semibold">
                   🏛️ YOUR EXCLUSIVE VENUE
                 </div>
-                <div className="bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-semibold">
                   👥 Available for Private Hire
                 </div>
               </div>
               <div className="text-left">
-                <h3 className="text-2xl md:text-4xl font-bold text-[#F5F0E8] font-serif mb-2">
+                <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#F5F0E8] font-serif mb-2">
                   An Unforgettable Setting for Every Occasion
                 </h3>
-                <p className="text-lg md:text-xl text-[#C9A84C] italic font-serif mb-6">
+                <p className="text-base sm:text-lg md:text-xl text-[#C9A84C] italic font-serif mb-4 md:mb-6">
                   Authentic Nigerian cuisine served in an exclusive private setting in Leeds
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToSection("venue-enquiry")}
-                  className="bg-[#C9A84C] text-black font-bold px-6 py-3 md:px-8 md:py-4 rounded-lg hover:bg-[#D4AF37] transition-colors tracking-wider"
+                  className="w-full sm:w-auto bg-[#C9A84C] text-black font-bold px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-lg hover:bg-[#D4AF37] transition-colors tracking-wider text-xs sm:text-sm md:text-base"
                 >
                   ENQUIRE ABOUT VENUE HIRE
                 </motion.button>
@@ -1075,12 +1066,12 @@ Event Details: ${venueFormData.eventDetails}
           </motion.div>
 
           {/* Block 2 - Venue Features Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 md:mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-12 lg:mb-16">
             {[
-              { icon: <Users className="w-8 h-8" />, title: 'Exclusive Use', desc: 'The entire venue is yours for your special occasion' },
-              { icon: <Utensils className="w-8 h-8" />, title: 'Bespoke Menu', desc: 'Custom authentic Nigerian menu tailored to your event' },
-              { icon: <PartyPopper className="w-8 h-8" />, title: 'Any Occasion', desc: 'Birthdays, weddings, naming ceremonies and more' },
-              { icon: <MapPin className="w-8 h-8" />, title: 'Prime Location', desc: '1st Floor, 32 Regent St, Leeds city centre LS2 7QN' }
+              { icon: <Users className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Exclusive Use', desc: 'The entire venue is yours for your special occasion' },
+              { icon: <Utensils className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Bespoke Menu', desc: 'Custom authentic Nigerian menu tailored to your event' },
+              { icon: <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Any Occasion', desc: 'Birthdays, weddings, naming ceremonies and more' },
+              { icon: <MapPin className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Prime Location', desc: '1st Floor, 32 Regent St, Leeds city centre LS2 7QN' }
             ].map((feature, index) => (
               <motion.div
                 key={index}
@@ -1089,15 +1080,15 @@ Event Details: ${venueFormData.eventDetails}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 whileHover={{ translateY: -4, boxShadow: '0 10px 40px rgba(201, 168, 76, 0.3)' }}
-                className="bg-[#222222] p-6 rounded-lg border-t-4 border-[#C9A84C] text-center transition-all duration-300"
+                className="bg-[#222222] p-3 sm:p-4 md:p-6 rounded-lg border-t-4 border-[#C9A84C] text-center transition-all duration-300"
               >
-                <div className="text-[#C9A84C] mb-4 flex justify-center">
+                <div className="text-[#C9A84C] mb-3 md:mb-4 flex justify-center">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-bold text-[#F5F0E8] font-serif mb-2">
+                <h3 className="text-base sm:text-lg font-bold text-[#F5F0E8] font-serif mb-1 md:mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-[#9CA3AF] text-sm">
+                <p className="text-[#9CA3AF] text-xs sm:text-sm">
                   {feature.desc}
                 </p>
               </motion.div>
@@ -1110,12 +1101,12 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-12 md:mb-16"
+            className="mb-8 md:mb-12 lg:mb-16"
           >
-            <h3 className="text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif text-center mb-8">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif text-center mb-6 md:mb-8">
               Perfect for Every Celebration
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {[
                 { emoji: '🎂', title: 'Birthday Parties', desc: 'Celebrate your special day with authentic Nigerian cuisine and your closest family and friends', image: '/home_img_2.jpg' },
                 { emoji: '👶', title: 'Naming Ceremonies', desc: 'Welcome your new arrival in style with a traditional Nigerian naming ceremony feast', image: '/home_img_3.jpg' },
@@ -1133,7 +1124,7 @@ Event Details: ${venueFormData.eventDetails}
                   whileHover={{ scale: 1.02 }}
                   className="relative overflow-hidden rounded-lg border-t-4 border-[#C9A84C] bg-[#222222]"
                 >
-                  <div className="relative h-48">
+                  <div className="relative h-40 sm:h-48">
                     <Image
                       src={occasion.image}
                       alt={occasion.title}
@@ -1142,17 +1133,17 @@ Event Details: ${venueFormData.eventDetails}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-5xl">{occasion.emoji}</span>
+                      <span className="text-4xl sm:text-5xl">{occasion.emoji}</span>
                     </div>
                   </div>
-                  <div className="p-5">
-                    <h4 className="text-xl font-bold text-[#F5F0E8] font-serif mb-2">
+                  <div className="p-3 sm:p-4 md:p-5">
+                    <h4 className="text-base sm:text-lg md:text-xl font-bold text-[#F5F0E8] font-serif mb-1 md:mb-2">
                       {occasion.title}
                     </h4>
-                    <p className="text-[#9CA3AF] text-sm mb-3">
+                    <p className="text-[#9CA3AF] text-xs sm:text-sm mb-2 md:mb-3">
                       {occasion.desc}
                     </p>
-                    <div className="inline-block bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-3 py-1 rounded-full text-xs font-semibold">
+                    <div className="inline-block bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-semibold">
                       Available for Booking
                     </div>
                   </div>
@@ -1167,23 +1158,23 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="bg-[#111111] border-y border-[#C9A84C] py-12 md:py-16 mb-12 md:mb-16"
+            className="bg-[#111111] border-y border-[#C9A84C] py-8 sm:py-12 md:py-16 mb-8 md:mb-12 lg:mb-16"
           >
-            <h3 className="text-2xl md:text-3xl font-bold text-[#F5F0E8] font-serif text-center mb-12">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#F5F0E8] font-serif text-center mb-6 md:mb-8 lg:mb-12">
               Why Choose Famous B for Your Private Event?
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {[
                 { title: 'Authentic Nigerian Cuisine', desc: 'Every dish made fresh to order using traditional recipes and finest ingredients' },
                 { title: 'Warm Cultural Atmosphere', desc: 'A venue that celebrates Nigerian and West African culture in every detail' },
                 { title: 'Central Leeds Location', desc: 'Easily accessible on Regent Street, Leeds city centre LS2 7QN' }
               ].map((feature, index) => (
-                <div key={index} className="text-center">
-                  <span className="text-[#C9A84C] text-3xl mb-4 block">✦</span>
-                  <h4 className="text-xl font-bold text-[#F5F0E8] font-serif mb-3">
+                <div key={index} className="text-center px-2">
+                  <span className="text-[#C9A84C] text-2xl md:text-3xl mb-3 md:mb-4 block">✦</span>
+                  <h4 className="text-base sm:text-lg md:text-xl font-bold text-[#F5F0E8] font-serif mb-2 md:mb-3">
                     {feature.title}
                   </h4>
-                  <p className="text-[#9CA3AF]">
+                  <p className="text-[#9CA3AF] text-sm sm:text-base">
                     {feature.desc}
                   </p>
                 </div>
@@ -1198,13 +1189,13 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-12 md:mb-16"
+            className="mb-8 md:mb-12 lg:mb-16"
           >
-            <div className="bg-[#1a1a1a] border border-[#C9A84C]/30 rounded-lg p-6 md:p-8">
-              <h3 className="text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif text-center mb-2">
+            <div className="bg-[#1a1a1a] border border-[#C9A84C]/30 rounded-lg p-4 sm:p-6 md:p-8">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif text-center mb-2">
                 📋 Enquire About Venue Hire
               </h3>
-              <p className="text-[#9CA3AF] text-center mb-8">
+              <p className="text-[#9CA3AF] text-sm sm:text-base text-center mb-6 md:mb-8">
                 Tell us about your event and we will be in touch to discuss your requirements
               </p>
 
@@ -1212,65 +1203,65 @@ Event Details: ${venueFormData.eventDetails}
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-[#C9A84C]/20 border border-[#C9A84C] p-6 rounded-lg text-center"
+                  className="bg-[#C9A84C]/20 border border-[#C9A84C] p-4 sm:p-6 rounded-lg text-center"
                 >
-                  <p className="text-[#C9A84C] font-semibold text-lg">
+                  <p className="text-[#C9A84C] font-semibold text-base sm:text-lg">
                     ✓ Thank you! We have received your venue enquiry and will be in touch within 24 hours to discuss your event.
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleVenueFormSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form onSubmit={handleVenueFormSubmit} className="space-y-3 md:space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Full Name</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Full Name</label>
                       <input
                         type="text"
                         required
                         placeholder="Your full name"
                         value={venueFormData.fullName}
                         onChange={(e) => setVenueFormData({...venueFormData, fullName: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF] text-sm sm:text-base"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Email Address</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Email Address</label>
                       <input
                         type="email"
                         required
                         placeholder="your@email.com"
                         value={venueFormData.email}
                         onChange={(e) => setVenueFormData({...venueFormData, email: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF] text-sm sm:text-base"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Phone Number</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Phone Number</label>
                       <input
                         type="tel"
                         required
                         placeholder="Your contact number"
                         value={venueFormData.phone}
                         onChange={(e) => setVenueFormData({...venueFormData, phone: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF] text-sm sm:text-base"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event Date</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Event Date</label>
                       <input
                         type="date"
                         required
                         value={venueFormData.eventDate}
                         onChange={(e) => setVenueFormData({...venueFormData, eventDate: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm sm:text-base"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event Type</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Event Type</label>
                       <select
                         required
                         value={venueFormData.eventType}
                         onChange={(e) => setVenueFormData({...venueFormData, eventType: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm sm:text-base"
                       >
                         <option value="">Select event type</option>
                         <option value="Birthday Party">Birthday Party</option>
@@ -1285,12 +1276,12 @@ Event Details: ${venueFormData.eventDetails}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Number of Guests</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Number of Guests</label>
                       <select
                         required
                         value={venueFormData.guests}
                         onChange={(e) => setVenueFormData({...venueFormData, guests: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm sm:text-base"
                       >
                         <option value="">Select number of guests</option>
                         <option value="10">10</option>
@@ -1301,40 +1292,40 @@ Event Details: ${venueFormData.eventDetails}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event Start Time</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Event Start Time</label>
                       <input
                         type="time"
                         required
                         value={venueFormData.startTime}
                         onChange={(e) => setVenueFormData({...venueFormData, startTime: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm sm:text-base"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event End Time</label>
+                      <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Event End Time</label>
                       <input
                         type="time"
                         required
                         value={venueFormData.endTime}
                         onChange={(e) => setVenueFormData({...venueFormData, endTime: e.target.value})}
-                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm sm:text-base"
                       />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-[#F5F0E8] mb-2 text-sm">Tell us about your event</label>
+                  <div className="col-span-full">
+                    <label className="block text-[#F5F0E8] mb-1 md:mb-2 text-xs sm:text-sm">Tell us about your event</label>
                     <textarea
                       placeholder="Please describe your event, any special requirements, dietary needs, preferred menu options etc."
                       value={venueFormData.eventDetails}
                       onChange={(e) => setVenueFormData({...venueFormData, eventDetails: e.target.value})}
-                      className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF] h-32"
+                      className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF] min-h-[100px] sm:min-h-[120px] text-sm sm:text-base"
                     />
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full bg-[#C9A84C] text-black font-black uppercase tracking-widest py-4 text-lg rounded-lg hover:bg-[#D4AF37] transition-colors"
+                    className="w-full bg-[#C9A84C] text-black font-black uppercase tracking-widest py-3 sm:py-4 text-sm sm:text-base md:text-lg rounded-lg hover:bg-[#D4AF37] transition-colors"
                   >
                     SEND VENUE ENQUIRY
                   </motion.button>
@@ -1342,15 +1333,15 @@ Event Details: ${venueFormData.eventDetails}
               )}
 
               {/* Direct Contact */}
-              <div className="mt-8 text-center pt-8 border-t border-[#C9A84C]/20">
-                <p className="text-[#9CA3AF] mb-4">Prefer to speak to us directly?</p>
-                <p className="text-2xl font-bold text-[#C9A84C] mb-2">
+              <div className="mt-6 md:mt-8 text-center pt-6 md:pt-8 border-t border-[#C9A84C]/20">
+                <p className="text-[#9CA3AF] text-sm sm:text-base mb-3 md:mb-4">Prefer to speak to us directly?</p>
+                <p className="text-xl sm:text-2xl font-bold text-[#C9A84C] mb-2">
                   <a href="tel:+447438036883" className="hover:text-[#D4AF37] transition">+44 7438 036883</a>
                 </p>
-                <p className="text-[#9CA3AF]">
-                  <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="hover:text-[#C9A84C] transition">FAMOUSEDENENE@ROCKETMAIL.COM</a>
+                <p className="text-[#9CA3AF] text-sm sm:text-base">
+                  <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="hover:text-[#C9A84C] transition break-all">FAMOUSEDENENE@ROCKETMAIL.COM</a>
                 </p>
-                <p className="text-[#9CA3AF] text-sm mt-4">
+                <p className="text-[#9CA3AF] text-xs sm:text-sm mt-3 md:mt-4">
                   We typically respond to venue enquiries within 24 hours
                 </p>
               </div>
@@ -1363,12 +1354,12 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="border border-[#C9A84C]/50 bg-[#C9A84C]/5 rounded-lg p-6 md:p-8"
+            className="border border-[#C9A84C]/50 bg-[#C9A84C]/5 rounded-lg p-4 sm:p-6 md:p-8"
           >
-            <h4 className="text-[#C9A84C] font-bold text-lg mb-4 flex items-center gap-2">
+            <h4 className="text-[#C9A84C] font-bold text-base sm:text-lg mb-3 md:mb-4 flex items-center gap-2">
               📋 VENUE HIRE INFORMATION
             </h4>
-            <ul className="space-y-3 text-[#9CA3AF]">
+            <ul className="space-y-2 md:space-y-3 text-[#9CA3AF] text-sm sm:text-base">
               <li className="flex items-start gap-2">
                 <span className="text-[#C9A84C] mt-1">✦</span>
                 <span>Venue available for private hire subject to availability</span>
@@ -1395,7 +1386,7 @@ Event Details: ${venueFormData.eventDetails}
       </section>
 
       {/* Book a Table Section */}
-      <section id="booking" className="py-20 bg-[#0d0d0d] border-y border-[#C9A84C]/20 relative overflow-hidden">
+      <section id="booking" className="py-12 sm:py-16 md:py-20 bg-[#0d0d0d] border-y border-[#C9A84C]/20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #C9A84C 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
@@ -1404,34 +1395,34 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4">Reserve Your Table</h2>
-            <p className="text-[#9CA3AF] text-lg max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4">Reserve Your Table</h2>
+            <p className="text-[#9CA3AF] text-base sm:text-lg max-w-2xl mx-auto">
               Experience authentic Nigerian cuisine in the heart of Leeds. Book your visit today.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
             {/* Left Panel - Call to Book */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-[#111111] p-8 rounded-lg border-t-4 border-[#C9A84C]"
+              className="bg-[#111111] p-4 sm:p-6 md:p-8 rounded-lg border-t-4 border-[#C9A84C]"
             >
-              <div className="text-[#C9A84C] mb-6">
-                <Phone className="w-16 h-16" />
+              <div className="text-[#C9A84C] mb-4 md:mb-6">
+                <Phone className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16" />
               </div>
-              <h3 className="text-2xl font-bold text-[#F5F0E8] font-serif mb-4">Call to Reserve</h3>
-              <p className="text-[#9CA3AF] mb-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#F5F0E8] font-serif mb-3 md:mb-4">Call to Reserve</h3>
+              <p className="text-[#9CA3AF] text-sm sm:text-base mb-6 md:mb-8">
                 The quickest way to secure your table is to give us a call. We&apos;re happy to help with any special requests or dietary requirements.
               </p>
               <motion.a
                 href="tel:+447438036883"
                 whileHover={{ scale: 1.05 }}
-                className="block text-3xl font-bold text-[#C9A84C] hover:text-white transition-colors mb-8 font-serif"
+                className="block text-2xl sm:text-3xl font-bold text-[#C9A84C] hover:text-white transition-colors mb-6 md:mb-8 font-serif"
               >
                 +44 7438 036883
               </motion.a>
@@ -1439,18 +1430,18 @@ Event Details: ${venueFormData.eventDetails}
                 href="tel:+447438036883"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-block bg-[#C9A84C] text-black px-8 py-3 font-bold tracking-wider hover:bg-[#D4AF37] transition-all duration-300"
+                className="inline-block w-full sm:w-auto bg-[#C9A84C] text-black px-6 sm:px-8 py-2 sm:py-3 font-bold tracking-wider hover:bg-[#D4AF37] transition-all duration-300 text-sm sm:text-base"
               >
                 <span className="mr-2">📞</span> Call Now
               </motion.a>
-              <div className="mt-8 pt-6 border-t border-[#C9A84C]/20">
-                <p className="text-[#9CA3AF] text-sm flex items-center gap-2 mb-2">
+              <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-[#C9A84C]/20">
+                <p className="text-[#9CA3AF] text-xs sm:text-sm flex items-center gap-2 mb-2">
                   <span>🕐</span> Available During Restaurant Hours
                 </p>
-                <p className="text-[#9CA3AF] text-sm flex items-center gap-2 mb-2">
+                <p className="text-[#9CA3AF] text-xs sm:text-sm flex items-center gap-2 mb-2">
                   <span>📍</span> Collection Only — No Delivery
                 </p>
-                <p className="text-[#9CA3AF] text-sm">
+                <p className="text-[#9CA3AF] text-xs sm:text-sm">
                   For delivery, order via <a href="https://www.just-eat.co.uk/restaurants-famous-b-restaurant-leeds/menu" target="_blank" rel="noopener noreferrer" className="text-[#C9A84C] hover:underline font-semibold">Just Eat</a>
                 </p>
               </div>
@@ -1462,13 +1453,13 @@ Event Details: ${venueFormData.eventDetails}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-[#111111] p-8 rounded-lg border-t-4 border-[#C9A84C]"
+              className="bg-[#111111] p-4 sm:p-6 md:p-8 rounded-lg border-t-4 border-[#C9A84C]"
             >
-              <div className="text-[#C9A84C] mb-6">
-                <span className="text-4xl">✉️</span>
+              <div className="text-[#C9A84C] mb-4 md:mb-6">
+                <span className="text-3xl sm:text-4xl">✉️</span>
               </div>
-              <h3 className="text-2xl font-bold text-[#F5F0E8] font-serif mb-4">Send an Enquiry</h3>
-              <p className="text-[#9CA3AF] mb-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#F5F0E8] font-serif mb-3 md:mb-4">Send an Enquiry</h3>
+              <p className="text-[#9CA3AF] text-sm sm:text-base mb-6 md:mb-8">
                 Prefer to write to us? Fill in your details below and we&apos;ll get back to you to confirm your reservation.
               </p>
 
@@ -1476,14 +1467,14 @@ Event Details: ${venueFormData.eventDetails}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-[#C9A84C]/20 border border-[#C9A84C] p-6 rounded-lg text-center"
+                  className="bg-[#C9A84C]/20 border border-[#C9A84C] p-4 sm:p-6 rounded-lg text-center"
                 >
-                  <p className="text-[#C9A84C] font-semibold text-lg">
+                  <p className="text-[#C9A84C] font-semibold text-base sm:text-lg">
                     Thank you! We&apos;ll be in touch shortly to confirm your reservation.
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleFormSubmit} className="space-y-4">
+                <form onSubmit={handleFormSubmit} className="space-y-3 md:space-y-4">
                   <div>
                     <input
                       type="text"
@@ -1491,7 +1482,7 @@ Event Details: ${venueFormData.eventDetails}
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200"
+                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 text-sm sm:text-base"
                     />
                   </div>
                   <div>
@@ -1501,7 +1492,7 @@ Event Details: ${venueFormData.eventDetails}
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200"
+                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 text-sm sm:text-base"
                     />
                   </div>
                   <div>
@@ -1511,17 +1502,17 @@ Event Details: ${venueFormData.eventDetails}
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200"
+                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 text-sm sm:text-base"
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
                     <div>
                       <input
                         type="date"
                         required
                         value={formData.date}
                         onChange={(e) => setFormData({...formData, date: e.target.value})}
-                        className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200"
+                        className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 text-sm sm:text-base"
                       />
                     </div>
                     <div>
@@ -1530,7 +1521,7 @@ Event Details: ${venueFormData.eventDetails}
                         required
                         value={formData.time}
                         onChange={(e) => setFormData({...formData, time: e.target.value})}
-                        className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200"
+                        className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 text-sm sm:text-base"
                       />
                     </div>
                   </div>
@@ -1539,14 +1530,14 @@ Event Details: ${venueFormData.eventDetails}
                       required
                       value={formData.guests}
                       onChange={(e) => setFormData({...formData, guests: e.target.value})}
-                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200"
+                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 text-sm sm:text-base"
                     >
                       <option value="1">1 Guest</option>
                       <option value="2">2 Guests</option>
                       <option value="3">3 Guests</option>
                       <option value="4">4 Guests</option>
                       <option value="5">5 Guests</option>
-                      <option value="6">6+ Guests</option>
+                      <option value="6+">6+ Guests</option>
                     </select>
                   </div>
                   <div>
@@ -1555,14 +1546,14 @@ Event Details: ${venueFormData.eventDetails}
                       rows={3}
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 resize-none"
+                      className="w-full bg-[#1a1a1a] border border-[#C9A84C]/30 text-[#F5F0E8] px-3 sm:px-4 py-2 sm:py-3 focus:border-[#C9A84C] focus:outline-none focus:ring-1 focus:ring-[#C9A84C] placeholder:text-gray-600 transition-colors duration-200 resize-none min-h-[80px] sm:min-h-[100px] text-sm sm:text-base"
                     />
                   </div>
                   <motion.button
                     type="submit"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-[#C9A84C] text-black font-bold py-4 tracking-widest text-lg hover:bg-[#D4AF37] active:scale-95 transition-all duration-300"
+                    className="w-full bg-[#C9A84C] text-black font-bold py-3 sm:py-4 tracking-widest text-sm sm:text-base md:text-lg hover:bg-[#D4AF37] active:scale-95 transition-all duration-300"
                   >
                     SEND ENQUIRY
                   </motion.button>
@@ -1577,26 +1568,26 @@ Event Details: ${venueFormData.eventDetails}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-12 max-w-4xl mx-auto border border-[#C9A84C] p-6 rounded-lg bg-[#111111]"
+            className="mt-8 md:mt-12 max-w-4xl mx-auto border border-[#C9A84C] p-4 sm:p-6 rounded-lg bg-[#111111]"
           >
-            <p className="text-[#C9A84C] font-semibold mb-2 flex items-center gap-2">
+            <p className="text-[#C9A84C] font-semibold text-sm sm:text-base mb-2 flex items-center gap-2">
               <span>⚠️</span> Please Note:
             </p>
-            <p className="text-[#F5F0E8] mb-2">
+            <p className="text-[#F5F0E8] text-sm sm:text-base mb-2">
               We are a COLLECTION ONLY restaurant.
             </p>
-            <p className="text-[#9CA3AF] flex items-center gap-2 mb-2">
+            <p className="text-[#9CA3AF] text-sm sm:text-base flex items-center gap-2 mb-2">
               <MapPin className="w-4 h-4" />
               <a 
                 href="https://www.google.com/maps/search/?api=1&query=1st+Floor+32+Regent+St+Leeds+LS2+7QN"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#C9A84C] transition"
+                className="hover:text-[#C9A84C] transition break-all"
               >
                 1st Floor, 32 Regent St, Leeds LS2 7QN
               </a>
             </p>
-            <p className="text-[#9CA3AF]">
+            <p className="text-[#9CA3AF] text-sm sm:text-base">
               For delivery, order via <a href="https://www.just-eat.co.uk/restaurants-famous-b-restaurant-leeds/menu" target="_blank" rel="noopener noreferrer" className="text-[#C9A84C] hover:underline font-semibold">Just Eat</a>
             </p>
           </motion.div>
@@ -1814,7 +1805,7 @@ Event Details: ${venueFormData.eventDetails}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mt-12 md:mt-16 relative"
+          className="mt-8 md:mt-12 lg:mt-16 relative"
         >
           <div className="absolute inset-0">
             <Image
@@ -1825,8 +1816,8 @@ Event Details: ${venueFormData.eventDetails}
             />
             <div className="absolute inset-0 bg-black/75"></div>
           </div>
-          <div className="relative z-10 py-16 md:py-24 px-4 text-center">
-            <Quote className="w-16 h-16 md:w-24 md:h-24 text-[#C9A84C] mx-auto mb-6 opacity-30" />
+          <div className="relative z-10 py-12 sm:py-16 md:py-24 px-4 text-center">
+            <Quote className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 text-[#C9A84C] mx-auto mb-4 md:mb-6 opacity-30" />
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -1834,53 +1825,53 @@ Event Details: ${venueFormData.eventDetails}
               transition={{ duration: 0.8 }}
               className="max-w-4xl mx-auto"
             >
-              <p className="text-2xl md:text-4xl text-[#F5F0E8] font-serif italic leading-relaxed mb-8">
+              <p className="text-xl sm:text-2xl md:text-4xl text-[#F5F0E8] font-serif italic leading-relaxed mb-6 md:mb-8">
                 Every dish we serve carries the soul of authentic Nigerian tradition
               </p>
-              <p className="text-[#C9A84C] font-serif text-lg">— Famous B Restaurant Leeds</p>
+              <p className="text-[#C9A84C] font-serif text-base sm:text-lg">— Famous B Restaurant Leeds</p>
             </motion.div>
           </div>
         </motion.div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-amber-50">
+      <section id="contact" className="py-12 sm:py-16 md:py-20 bg-amber-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Contact Us</h2>
-            <div className="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4">Contact Us</h2>
+            <div className="w-16 sm:w-20 md:w-24 h-1 bg-amber-600 mx-auto mb-4 md:mb-6"></div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <div className="bg-white p-8 rounded-lg shadow-md">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h3>
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 max-w-5xl mx-auto">
+            <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 md:mb-6">Get in Touch</h3>
               
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div className="flex items-start">
-                  <div className="text-amber-600 text-2xl mr-4">📍</div>
+                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4">📍</div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">Location</h4>
-                    <p className="text-gray-600">1st floor, 32 Regent St</p>
-                    <p className="text-gray-600">Leeds LS2 7QN</p>
-                    <p className="text-gray-600">United Kingdom</p>
+                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Location</h4>
+                    <p className="text-gray-600 text-sm sm:text-base">1st floor, 32 Regent St</p>
+                    <p className="text-gray-600 text-sm sm:text-base">Leeds LS2 7QN</p>
+                    <p className="text-gray-600 text-sm sm:text-base">United Kingdom</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="text-amber-600 text-2xl mr-4">📞</div>
+                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4">📞</div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">Phone</h4>
-                    <a href="tel:+447438036883" className="text-amber-600 hover:text-amber-700">
+                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Phone</h4>
+                    <a href="tel:+447438036883" className="text-amber-600 hover:text-amber-700 text-sm sm:text-base">
                       +44 7438 036883
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="text-amber-600 text-2xl mr-4">✉️</div>
+                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4">✉️</div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">Email</h4>
-                    <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="text-amber-600 hover:text-amber-700">
+                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Email</h4>
+                    <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="text-amber-600 hover:text-amber-700 text-sm sm:text-base break-all">
                       FAMOUSEDENENE@ROCKETMAIL.COM
                     </a>
                   </div>
@@ -1888,29 +1879,29 @@ Event Details: ${venueFormData.eventDetails}
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-lg shadow-md">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Opening Hours</h3>
+            <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 md:mb-6">Opening Hours</h3>
               
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Monday - Friday</span>
-                  <span className="text-gray-800 font-semibold">11:00 AM - 10:00 PM</span>
+                  <span className="text-gray-700 text-sm sm:text-base">Monday - Friday</span>
+                  <span className="text-gray-800 font-semibold text-sm sm:text-base">11:00 AM - 10:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Saturday</span>
-                  <span className="text-gray-800 font-semibold">11:00 AM - 11:00 PM</span>
+                  <span className="text-gray-700 text-sm sm:text-base">Saturday</span>
+                  <span className="text-gray-800 font-semibold text-sm sm:text-base">11:00 AM - 11:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Sunday</span>
-                  <span className="text-gray-800 font-semibold">12:00 PM - 9:00 PM</span>
+                  <span className="text-gray-700 text-sm sm:text-base">Sunday</span>
+                  <span className="text-gray-800 font-semibold text-sm sm:text-base">12:00 PM - 9:00 PM</span>
                 </div>
               </div>
 
-              <div className="mt-8 p-4 bg-amber-100 rounded-lg">
-                <p className="text-amber-800 font-semibold text-center mb-2">
+              <div className="mt-6 md:mt-8 p-3 md:p-4 bg-amber-100 rounded-lg">
+                <p className="text-amber-800 font-semibold text-center mb-2 text-sm sm:text-base">
                   📦 Collection Only Available
                 </p>
-                <p className="text-amber-700 text-center text-sm">
+                <p className="text-amber-700 text-center text-xs sm:text-sm">
                   For delivery, order via <a href="https://www.just-eat.co.uk/restaurants-famous-b-restaurant-leeds/menu" target="_blank" rel="noopener noreferrer" className="text-amber-800 hover:underline font-semibold">Just Eat</a>
                 </p>
               </div>
@@ -1918,12 +1909,12 @@ Event Details: ${venueFormData.eventDetails}
           </div>
 
           {/* Map */}
-          <div className="mt-12 max-w-5xl mx-auto">
-            <div className="bg-white p-4 rounded-lg shadow-md">
+          <div className="mt-8 md:mt-12 max-w-5xl mx-auto">
+            <div className="bg-white p-3 md:p-4 rounded-lg shadow-md">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2356.123456789!2d-1.54321!3d53.80000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4879345678901234%3A0x1234567890abcdef!2s32%20Regent%20St%2C%20Leeds%20LS2%207QN%2C%20UK!5e0!3m2!1sen!2suk!4v1234567890"
                 width="100%"
-                height="400"
+                height="300"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
@@ -1936,11 +1927,11 @@ Event Details: ${venueFormData.eventDetails}
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             <div>
-              <div className="relative w-[250px] h-[105px] mb-4">
+              <div className="relative w-[180px] h-[75px] sm:w-[250px] sm:h-[105px] mb-3 md:mb-4">
                 <Image
                   src="/FamousB_Restaurant_Leeds_logo.png"
                   alt="Famous B Restaurant Leeds Logo"
@@ -1948,38 +1939,38 @@ Event Details: ${venueFormData.eventDetails}
                   className="object-contain"
                 />
               </div>
-              <p className="text-gray-400 mb-2">
+              <p className="text-gray-400 text-sm sm:text-base mb-2">
                 Authentic cuisine in the heart of Leeds. Collection only.
               </p>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-xs sm:text-sm">
                 For delivery, order via <a href="https://www.just-eat.co.uk/restaurants-famous-b-restaurant-leeds/menu" target="_blank" rel="noopener noreferrer" className="text-amber-500 hover:underline font-semibold">Just Eat</a>
               </p>
             </div>
             
             <div>
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
+              <h4 className="text-base sm:text-lg font-semibold mb-3 md:mb-4">Quick Links</h4>
+              <ul className="space-y-1 md:space-y-2">
                 <li>
-                  <button onClick={() => scrollToSection("home")} className="text-gray-400 hover:text-amber-500 transition">Home</button>
+                  <button onClick={() => scrollToSection("home")} className="text-gray-400 hover:text-amber-500 transition text-sm sm:text-base">Home</button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection("about")} className="text-gray-400 hover:text-amber-500 transition">About Us</button>
+                  <button onClick={() => scrollToSection("about")} className="text-gray-400 hover:text-amber-500 transition text-sm sm:text-base">About Us</button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection("menu")} className="text-gray-400 hover:text-amber-500 transition">Menu</button>
+                  <button onClick={() => scrollToSection("menu")} className="text-gray-400 hover:text-amber-500 transition text-sm sm:text-base">Menu</button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection("venue")} className="text-gray-400 hover:text-amber-500 transition">Venue Hire</button>
+                  <button onClick={() => scrollToSection("venue")} className="text-gray-400 hover:text-amber-500 transition text-sm sm:text-base">Venue Hire</button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection("contact")} className="text-gray-400 hover:text-amber-500 transition">Contact</button>
+                  <button onClick={() => scrollToSection("contact")} className="text-gray-400 hover:text-amber-500 transition text-sm sm:text-base">Contact</button>
                 </li>
               </ul>
             </div>
             
             <div>
-              <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-              <ul className="space-y-2 text-gray-400">
+              <h4 className="text-base sm:text-lg font-semibold mb-3 md:mb-4">Contact Info</h4>
+              <ul className="space-y-1 md:space-y-2 text-gray-400 text-xs sm:text-sm">
                 <li>📍 1st floor, 32 Regent St, Leeds LS2 7QN</li>
                 <li>📞 +44 7438 036883</li>
                 <li>✉️ FAMOUSEDENENE@ROCKETMAIL.COM</li>
@@ -1987,8 +1978,8 @@ Event Details: ${venueFormData.eventDetails}
             </div>
           </div>
           
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} Famous B Restaurant. All rights reserved.</p>
+          <div className="border-t border-gray-800 mt-6 md:mt-8 pt-6 md:pt-8 text-center text-gray-400">
+            <p className="text-xs sm:text-sm">&copy; {new Date().getFullYear()} Famous B Restaurant. All rights reserved.</p>
           </div>
         </div>
       </footer>
