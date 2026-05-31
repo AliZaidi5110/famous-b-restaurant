@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef } from "react";
-import { Utensils, Globe, Package, MapPin, Flame, ChefHat, Leaf, Phone, Quote, ZoomIn, X, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX, Maximize } from "lucide-react";
+import { Utensils, Globe, Package, MapPin, Flame, ChefHat, Leaf, Phone, Quote, ZoomIn, X, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX, Maximize, Users, PartyPopper } from "lucide-react";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -23,6 +23,20 @@ export default function Home() {
     message: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Venue enquiry form state
+  const [venueFormData, setVenueFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    eventDate: '',
+    eventType: '',
+    guests: '',
+    startTime: '',
+    endTime: '',
+    eventDetails: ''
+  });
+  const [venueFormSubmitted, setVenueFormSubmitted] = useState(false);
 
   // Video player state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -87,6 +101,24 @@ Special Requests: ${formData.message}
     `;
     window.location.href = `mailto:FAMOUSEDENENE@ROCKETMAIL.COM?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setFormSubmitted(true);
+  };
+
+  const handleVenueFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = `Venue Hire Enquiry - ${venueFormData.eventType} - ${venueFormData.eventDate} - ${venueFormData.fullName}`;
+    const body = `
+Full Name: ${venueFormData.fullName}
+Email: ${venueFormData.email}
+Phone: ${venueFormData.phone}
+Event Date: ${venueFormData.eventDate}
+Event Type: ${venueFormData.eventType}
+Number of Guests: ${venueFormData.guests}
+Start Time: ${venueFormData.startTime}
+End Time: ${venueFormData.endTime}
+Event Details: ${venueFormData.eventDetails}
+    `;
+    window.location.href = `mailto:FAMOUSEDENENE@ROCKETMAIL.COM?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setVenueFormSubmitted(true);
   };
 
   // Video player handlers
@@ -242,6 +274,10 @@ Special Requests: ${formData.message}
                 Gallery
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all group-hover:w-full"></span>
               </button>
+              <button onClick={() => scrollToSection("venue")} className="text-[#F5F0E8] hover:text-[#C9A84C] transition relative group">
+                Venue Hire
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all group-hover:w-full"></span>
+              </button>
               <button onClick={() => scrollToSection("contact")} className="text-[#F5F0E8] hover:text-[#C9A84C] transition relative group">
                 Contact
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all group-hover:w-full"></span>
@@ -253,6 +289,14 @@ Special Requests: ${formData.message}
                 className="border-2 border-[#C9A84C] text-[#C9A84C] px-6 py-2 font-semibold tracking-wider hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
               >
                 Book a Table
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => scrollToSection("venue")}
+                className="border-2 border-[#C9A84C] text-[#C9A84C] px-6 py-2 font-semibold tracking-wider hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
+              >
+                Hire Our Venue
               </motion.button>
             </div>
 
@@ -286,6 +330,7 @@ Special Requests: ${formData.message}
                   <button onClick={() => scrollToSection("menu")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Menu</button>
                   <button onClick={() => scrollToSection("about")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">About</button>
                   <button onClick={() => scrollToSection("gallery")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Gallery</button>
+                  <button onClick={() => scrollToSection("venue")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Venue Hire</button>
                   <button onClick={() => scrollToSection("contact")} className="text-2xl text-[#F5F0E8] hover:text-[#C9A84C] transition font-serif">Contact</button>
                   <motion.button
                     whileTap={{ scale: 0.95 }}
@@ -293,6 +338,13 @@ Special Requests: ${formData.message}
                     className="w-full max-w-xs border-2 border-[#C9A84C] text-[#C9A84C] px-8 py-3 font-semibold tracking-wider hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
                   >
                     Book a Table
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => scrollToSection("venue")}
+                    className="w-full max-w-xs border-2 border-[#C9A84C] text-[#C9A84C] px-8 py-3 font-semibold tracking-wider hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
+                  >
+                    Hire Our Venue
                   </motion.button>
                 </div>
               </motion.div>
@@ -948,6 +1000,400 @@ Special Requests: ${formData.message}
         </div>
       </section>
 
+      {/* Venue Hire Section */}
+      <section id="venue" className="bg-[#1a1a1a] relative overflow-hidden">
+        {/* Gold particle dots background */}
+        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #C9A84C 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 md:py-24">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <div className="inline-block bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-4 py-2 rounded-full text-sm font-semibold mb-6">
+              🏛️ PRIVATE VENUE HIRE
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-[#F5F0E8] font-serif mb-4">
+              Host Your Special Occasion at{' '}
+              <span className="text-[#C9A84C]">Famous B Restaurant</span>
+            </h2>
+            <p className="text-lg md:text-xl text-[#9CA3AF] italic font-serif max-w-3xl mx-auto">
+              From intimate family gatherings to grand celebrations — our venue is the perfect setting for your most memorable moments
+            </p>
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <div className="h-px bg-[#C9A84C] w-16 md:w-24"></div>
+              <span className="text-[#C9A84C] text-2xl">✦</span>
+              <div className="h-px bg-[#C9A84C] w-16 md:w-24"></div>
+            </div>
+          </motion.div>
+
+          {/* Block 1 - Cinematic Full Width Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative w-full h-[350px] md:h-[500px] rounded-lg overflow-hidden mb-12 md:mb-16"
+          >
+            <Image
+              src="/home_img_1.jpg"
+              alt="Famous B Restaurant Leeds interior for private venue hire"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/30"></div>
+            <div className="absolute inset-0 p-6 md:p-12 flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-3 py-1 rounded-full text-sm font-semibold">
+                  🏛️ YOUR EXCLUSIVE VENUE
+                </div>
+                <div className="bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-3 py-1 rounded-full text-sm font-semibold">
+                  👥 Available for Private Hire
+                </div>
+              </div>
+              <div className="text-left">
+                <h3 className="text-2xl md:text-4xl font-bold text-[#F5F0E8] font-serif mb-2">
+                  An Unforgettable Setting for Every Occasion
+                </h3>
+                <p className="text-lg md:text-xl text-[#C9A84C] italic font-serif mb-6">
+                  Authentic Nigerian cuisine served in an exclusive private setting in Leeds
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToSection("venue-enquiry")}
+                  className="bg-[#C9A84C] text-black font-bold px-6 py-3 md:px-8 md:py-4 rounded-lg hover:bg-[#D4AF37] transition-colors tracking-wider"
+                >
+                  ENQUIRE ABOUT VENUE HIRE
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Block 2 - Venue Features Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 md:mb-16">
+            {[
+              { icon: <Users className="w-8 h-8" />, title: 'Exclusive Use', desc: 'The entire venue is yours for your special occasion' },
+              { icon: <Utensils className="w-8 h-8" />, title: 'Bespoke Menu', desc: 'Custom authentic Nigerian menu tailored to your event' },
+              { icon: <PartyPopper className="w-8 h-8" />, title: 'Any Occasion', desc: 'Birthdays, weddings, naming ceremonies and more' },
+              { icon: <MapPin className="w-8 h-8" />, title: 'Prime Location', desc: '1st Floor, 32 Regent St, Leeds city centre LS2 7QN' }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                whileHover={{ translateY: -4, boxShadow: '0 10px 40px rgba(201, 168, 76, 0.3)' }}
+                className="bg-[#222222] p-6 rounded-lg border-t-4 border-[#C9A84C] text-center transition-all duration-300"
+              >
+                <div className="text-[#C9A84C] mb-4 flex justify-center">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-bold text-[#F5F0E8] font-serif mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-[#9CA3AF] text-sm">
+                  {feature.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Block 3 - Occasion Types Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-12 md:mb-16"
+          >
+            <h3 className="text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif text-center mb-8">
+              Perfect for Every Celebration
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { emoji: '🎂', title: 'Birthday Parties', desc: 'Celebrate your special day with authentic Nigerian cuisine and your closest family and friends', image: '/home_img_2.jpg' },
+                { emoji: '👶', title: 'Naming Ceremonies', desc: 'Welcome your new arrival in style with a traditional Nigerian naming ceremony feast', image: '/home_img_3.jpg' },
+                { emoji: '💍', title: 'Wedding Receptions', desc: 'Make your reception unforgettable with our exclusive venue and bespoke wedding menu', image: '/home_img_1.jpg' },
+                { emoji: '💼', title: 'Corporate Events', desc: 'Impress clients and colleagues with a unique dining experience at Famous B', image: '/Album_Cover.jpg' },
+                { emoji: '🎓', title: 'Graduation Parties', desc: 'Celebrate your achievement with family in our warm and exclusive private setting', image: '/jollof_rice.jpg' },
+                { emoji: '🙏', title: 'Cultural & Religious', desc: 'Host your cultural celebrations in a venue that understands and respects your traditions', image: '/pounded_yam.jpg' }
+              ].map((occasion, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  className="relative overflow-hidden rounded-lg border-t-4 border-[#C9A84C] bg-[#222222]"
+                >
+                  <div className="relative h-48">
+                    <Image
+                      src={occasion.image}
+                      alt={occasion.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-5xl">{occasion.emoji}</span>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h4 className="text-xl font-bold text-[#F5F0E8] font-serif mb-2">
+                      {occasion.title}
+                    </h4>
+                    <p className="text-[#9CA3AF] text-sm mb-3">
+                      {occasion.desc}
+                    </p>
+                    <div className="inline-block bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] px-3 py-1 rounded-full text-xs font-semibold">
+                      Available for Booking
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Block 4 - Why Choose Famous B Venue */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-[#111111] border-y border-[#C9A84C] py-12 md:py-16 mb-12 md:mb-16"
+          >
+            <h3 className="text-2xl md:text-3xl font-bold text-[#F5F0E8] font-serif text-center mb-12">
+              Why Choose Famous B for Your Private Event?
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { title: 'Authentic Nigerian Cuisine', desc: 'Every dish made fresh to order using traditional recipes and finest ingredients' },
+                { title: 'Warm Cultural Atmosphere', desc: 'A venue that celebrates Nigerian and West African culture in every detail' },
+                { title: 'Central Leeds Location', desc: 'Easily accessible on Regent Street, Leeds city centre LS2 7QN' }
+              ].map((feature, index) => (
+                <div key={index} className="text-center">
+                  <span className="text-[#C9A84C] text-3xl mb-4 block">✦</span>
+                  <h4 className="text-xl font-bold text-[#F5F0E8] font-serif mb-3">
+                    {feature.title}
+                  </h4>
+                  <p className="text-[#9CA3AF]">
+                    {feature.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Block 5 - Venue Enquiry Form */}
+          <motion.div
+            id="venue-enquiry"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-12 md:mb-16"
+          >
+            <div className="bg-[#1a1a1a] border border-[#C9A84C]/30 rounded-lg p-6 md:p-8">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#C9A84C] font-serif text-center mb-2">
+                📋 Enquire About Venue Hire
+              </h3>
+              <p className="text-[#9CA3AF] text-center mb-8">
+                Tell us about your event and we will be in touch to discuss your requirements
+              </p>
+
+              {venueFormSubmitted ? (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-[#C9A84C]/20 border border-[#C9A84C] p-6 rounded-lg text-center"
+                >
+                  <p className="text-[#C9A84C] font-semibold text-lg">
+                    ✓ Thank you! We have received your venue enquiry and will be in touch within 24 hours to discuss your event.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleVenueFormSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Full Name</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Your full name"
+                        value={venueFormData.fullName}
+                        onChange={(e) => setVenueFormData({...venueFormData, fullName: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Email Address</label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="your@email.com"
+                        value={venueFormData.email}
+                        onChange={(e) => setVenueFormData({...venueFormData, email: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Phone Number</label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="Your contact number"
+                        value={venueFormData.phone}
+                        onChange={(e) => setVenueFormData({...venueFormData, phone: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event Date</label>
+                      <input
+                        type="date"
+                        required
+                        value={venueFormData.eventDate}
+                        onChange={(e) => setVenueFormData({...venueFormData, eventDate: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event Type</label>
+                      <select
+                        required
+                        value={venueFormData.eventType}
+                        onChange={(e) => setVenueFormData({...venueFormData, eventType: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                      >
+                        <option value="">Select event type</option>
+                        <option value="Birthday Party">Birthday Party</option>
+                        <option value="Naming Ceremony">Naming Ceremony</option>
+                        <option value="Wedding Reception">Wedding Reception</option>
+                        <option value="Corporate Event">Corporate Event</option>
+                        <option value="Graduation Party">Graduation Party</option>
+                        <option value="Cultural Celebration">Cultural Celebration</option>
+                        <option value="Religious Event">Religious Event</option>
+                        <option value="Anniversary">Anniversary</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Number of Guests</label>
+                      <select
+                        required
+                        value={venueFormData.guests}
+                        onChange={(e) => setVenueFormData({...venueFormData, guests: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                      >
+                        <option value="">Select number of guests</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50+">50+</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event Start Time</label>
+                      <input
+                        type="time"
+                        required
+                        value={venueFormData.startTime}
+                        onChange={(e) => setVenueFormData({...venueFormData, startTime: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#F5F0E8] mb-2 text-sm">Event End Time</label>
+                      <input
+                        type="time"
+                        required
+                        value={venueFormData.endTime}
+                        onChange={(e) => setVenueFormData({...venueFormData, endTime: e.target.value})}
+                        className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[#F5F0E8] mb-2 text-sm">Tell us about your event</label>
+                    <textarea
+                      placeholder="Please describe your event, any special requirements, dietary needs, preferred menu options etc."
+                      value={venueFormData.eventDetails}
+                      onChange={(e) => setVenueFormData({...venueFormData, eventDetails: e.target.value})}
+                      className="w-full bg-[#222222] border border-[#C9A84C]/30 text-[#F5F0E8] px-4 py-3 rounded-lg focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] placeholder-[#9CA3AF] h-32"
+                    />
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    className="w-full bg-[#C9A84C] text-black font-black uppercase tracking-widest py-4 text-lg rounded-lg hover:bg-[#D4AF37] transition-colors"
+                  >
+                    SEND VENUE ENQUIRY
+                  </motion.button>
+                </form>
+              )}
+
+              {/* Direct Contact */}
+              <div className="mt-8 text-center pt-8 border-t border-[#C9A84C]/20">
+                <p className="text-[#9CA3AF] mb-4">Prefer to speak to us directly?</p>
+                <p className="text-2xl font-bold text-[#C9A84C] mb-2">
+                  <a href="tel:+447438036883" className="hover:text-[#D4AF37] transition">+44 7438 036883</a>
+                </p>
+                <p className="text-[#9CA3AF]">
+                  <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="hover:text-[#C9A84C] transition">FAMOUSEDENENE@ROCKETMAIL.COM</a>
+                </p>
+                <p className="text-[#9CA3AF] text-sm mt-4">
+                  We typically respond to venue enquiries within 24 hours
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Block 6 - Important Notes Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="border border-[#C9A84C]/50 bg-[#C9A84C]/5 rounded-lg p-6 md:p-8"
+          >
+            <h4 className="text-[#C9A84C] font-bold text-lg mb-4 flex items-center gap-2">
+              📋 VENUE HIRE INFORMATION
+            </h4>
+            <ul className="space-y-3 text-[#9CA3AF]">
+              <li className="flex items-start gap-2">
+                <span className="text-[#C9A84C] mt-1">✦</span>
+                <span>Venue available for private hire subject to availability</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#C9A84C] mt-1">✦</span>
+                <span>Collection only — guests collect their own food</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#C9A84C] mt-1">✦</span>
+                <span>Bespoke menus available on request</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#C9A84C] mt-1">✦</span>
+                <span>Minimum guest numbers may apply</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#C9A84C] mt-1">✦</span>
+                <span>Full venue details provided on enquiry</span>
+              </li>
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Book a Table Section */}
       <section id="booking" className="py-20 bg-[#0d0d0d] border-y border-[#C9A84C]/20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #C9A84C 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
@@ -1521,6 +1967,9 @@ Special Requests: ${formData.message}
                 </li>
                 <li>
                   <button onClick={() => scrollToSection("menu")} className="text-gray-400 hover:text-amber-500 transition">Menu</button>
+                </li>
+                <li>
+                  <button onClick={() => scrollToSection("venue")} className="text-gray-400 hover:text-amber-500 transition">Venue Hire</button>
                 </li>
                 <li>
                   <button onClick={() => scrollToSection("contact")} className="text-gray-400 hover:text-amber-500 transition">Contact</button>
