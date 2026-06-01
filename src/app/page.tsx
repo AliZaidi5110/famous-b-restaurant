@@ -383,7 +383,7 @@ Event Details: ${venueFormData.eventDetails}
               Welcome to Famous B Restaurant
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-4 italic">
-              Authentic African's Cuisine in the Heart of Leeds UK
+              Authentic African&apos;s Cuisine in the Heart of Leeds UK
             </p>
             <p className="text-sm sm:text-base md:text-lg text-white/80 mb-2">
               📍 1st & 2nd floor 34 Regent St, Leeds LS2 7QN
