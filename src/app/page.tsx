@@ -251,6 +251,7 @@ Event Details: ${venueFormData.eventDetails}
                     fill
                     className="object-contain object-left"
                     priority
+                    quality={90}
                   />
                 </div>
               </button>
@@ -410,6 +411,8 @@ Event Details: ${venueFormData.eventDetails}
             fill
             className="object-cover"
             priority
+            quality={80}
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/40"></div>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
@@ -466,6 +469,9 @@ Event Details: ${venueFormData.eventDetails}
                   alt="Famous B Restaurant Leeds food"
                   fill
                   className="object-cover"
+                  loading="lazy"
+                  quality={75}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             </motion.div>
@@ -629,6 +635,9 @@ Event Details: ${venueFormData.eventDetails}
                       alt={item.name}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
+                      loading="lazy"
+                      quality={75}
+                      sizes="(max-width: 768px) 48px, 64px"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -675,6 +684,9 @@ Event Details: ${venueFormData.eventDetails}
                       alt={item.name}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
+                      loading="lazy"
+                      quality={75}
+                      sizes="(max-width: 768px) 48px, 64px"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -703,6 +715,9 @@ Event Details: ${venueFormData.eventDetails}
                       alt={item.name}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
+                      loading="lazy"
+                      quality={75}
+                      sizes="(max-width: 768px) 48px, 64px"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -733,6 +748,9 @@ Event Details: ${venueFormData.eventDetails}
                       alt={item.name}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
+                      loading="lazy"
+                      quality={75}
+                      sizes="(max-width: 768px) 48px, 64px"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -769,6 +787,9 @@ Event Details: ${venueFormData.eventDetails}
                       alt={item.name}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
+                      loading="lazy"
+                      quality={75}
+                      sizes="(max-width: 768px) 48px, 64px"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -828,6 +849,9 @@ Event Details: ${venueFormData.eventDetails}
                   alt={img.alt}
                   fill
                   className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  quality={75}
+                  sizes="(max-width: 768px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
               </motion.div>
@@ -907,6 +931,8 @@ Event Details: ${venueFormData.eventDetails}
                 width={1200}
                 height={800}
                 className="object-contain max-h-[85vh] w-auto"
+                quality={80}
+                priority
               />
             </motion.div>
           </motion.div>
@@ -944,6 +970,9 @@ Event Details: ${venueFormData.eventDetails}
                     alt="Owner of Famous B Restaurant Leeds"
                     fill
                     className="object-cover rounded-full ring-4 ring-[#C9A84C]"
+                    loading="lazy"
+                    quality={80}
+                    sizes="(max-width: 768px) 192px, 256px"
                   />
                 </div>
               </div>
@@ -959,6 +988,9 @@ Event Details: ${venueFormData.eventDetails}
                     alt="Owner of Famous B Restaurant Leeds"
                     fill
                     className="object-cover"
+                    loading="lazy"
+                    quality={80}
+                    sizes="(max-width: 1024px) 50vw, 40vw"
                   />
                 </div>
               </div>
@@ -1041,6 +1073,9 @@ Event Details: ${venueFormData.eventDetails}
               alt="Famous B Restaurant Leeds interior for private venue hire"
               fill
               className="object-cover"
+              loading="lazy"
+              quality={75}
+              sizes="100vw"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/30"></div>
             <div className="absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-between">
@@ -1136,6 +1171,9 @@ Event Details: ${venueFormData.eventDetails}
                       alt={occasion.title}
                       fill
                       className="object-cover"
+                      loading="lazy"
+                      quality={75}
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -1819,6 +1857,9 @@ Event Details: ${venueFormData.eventDetails}
               alt="Restaurant background"
               fill
               className="object-cover blur-sm"
+              loading="lazy"
+              quality={60}
+              sizes="100vw"
             />
             <div className="absolute inset-0 bg-black/75"></div>
           </div>
@@ -1943,6 +1984,9 @@ Event Details: ${venueFormData.eventDetails}
                   alt="Famous B Restaurant Leeds Logo"
                   fill
                   className="object-contain"
+                  loading="lazy"
+                  quality={85}
+                  sizes="(max-width: 768px) 180px, 250px"
                 />
               </div>
               <p className="text-gray-400 text-sm sm:text-base mb-2">
