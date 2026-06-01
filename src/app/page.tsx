@@ -485,7 +485,7 @@ Event Details: ${venueFormData.eventDetails}
               <div className="h-px bg-[#C9A84C] mb-6"></div>
               <div className="inline-flex items-center gap-2 bg-[#2a2a2a] px-4 py-2 rounded-full">
                 <MapPin className="w-5 h-5 text-[#C9A84C]" />
-                <span className="text-[#F5F0E8] text-sm sm:text-base">1st Floor, 32 Regent St, Leeds LS2 7QN</span>
+                <span className="text-[#F5F0E8] text-sm sm:text-base">1st & 2nd floor 34 Regent St, Leeds LS2 7QN</span>
               </div>
             </motion.div>
           </div>
@@ -597,7 +597,7 @@ Event Details: ${venueFormData.eventDetails}
               </p>
               <p className="flex items-center gap-2">
                 <MapPin className="w-5 h-5" />
-                <span>32 Regent St, Leeds LS2 7QN</span>
+                <span>34 Regent St, Leeds LS2 7QN</span>
               </p>
             </div>
           </motion.div>
@@ -989,7 +989,7 @@ Event Details: ${venueFormData.eventDetails}
                 </p>
                 <p className="flex items-center justify-center md:justify-start gap-3 text-[#F5F0E8] text-sm sm:text-base">
                   <MapPin className="w-5 h-5 text-[#C9A84C]" />
-                  <span className="break-all">1st Floor, 32 Regent St, Leeds LS2 7QN</span>
+                  <span className="break-all">1st & 2nd floor 34 Regent St, Leeds LS2 7QN</span>
                 </p>
               </div>
             </motion.div>
@@ -1077,7 +1077,7 @@ Event Details: ${venueFormData.eventDetails}
               { icon: <Users className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Exclusive Use', desc: 'The entire venue is yours for your special occasion' },
               { icon: <Utensils className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Bespoke Menu', desc: 'Custom authentic Nigerian menu tailored to your event' },
               { icon: <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Any Occasion', desc: 'Birthdays, weddings, naming ceremonies and more' },
-              { icon: <MapPin className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Prime Location', desc: '1st Floor, 32 Regent St, Leeds city centre LS2 7QN' }
+              { icon: <MapPin className="w-6 h-6 sm:w-8 sm:h-8" />, title: 'Prime Location', desc: '1st & 2nd floor 34 Regent St, Leeds city centre LS2 7QN' }
             ].map((feature, index) => (
               <motion.div
                 key={index}
@@ -1585,12 +1585,12 @@ Event Details: ${venueFormData.eventDetails}
             <p className="text-[#9CA3AF] text-sm sm:text-base flex items-center gap-2 mb-2">
               <MapPin className="w-4 h-4" />
               <a 
-                href="https://www.google.com/maps/search/?api=1&query=1st+Floor+32+Regent+St+Leeds+LS2+7QN"
+                href="https://www.google.com/maps/search/?api=1&query=1st+and+2nd+floor+34+Regent+St+Leeds+LS2+7QN"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#C9A84C] transition break-all"
               >
-                1st Floor, 32 Regent St, Leeds LS2 7QN
+                1st & 2nd floor 34 Regent St, Leeds LS2 7QN
               </a>
             </p>
             <p className="text-[#9CA3AF] text-sm sm:text-base">
@@ -1857,7 +1857,7 @@ Event Details: ${venueFormData.eventDetails}
                   <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4">📍</div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Location</h4>
-                    <p className="text-gray-600 text-sm sm:text-base">1st floor, 32 Regent St</p>
+                    <p className="text-gray-600 text-sm sm:text-base">1st & 2nd floor 34 Regent St</p>
                     <p className="text-gray-600 text-sm sm:text-base">Leeds LS2 7QN</p>
                     <p className="text-gray-600 text-sm sm:text-base">United Kingdom</p>
                   </div>
@@ -1977,7 +1977,7 @@ Event Details: ${venueFormData.eventDetails}
             <div>
               <h4 className="text-base sm:text-lg font-semibold mb-3 md:mb-4">Contact Info</h4>
               <ul className="space-y-1 md:space-y-2 text-gray-400 text-xs sm:text-sm">
-                <li>📍 1st floor, 32 Regent St, Leeds LS2 7QN</li>
+                <li>📍 1st & 2nd floor 34 Regent St, Leeds LS2 7QN</li>
                 <li>📞 +44 7438 036883</li>
                 <li>✉️ FAMOUSEDENENE@ROCKETMAIL.COM</li>
               </ul>
