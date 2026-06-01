@@ -244,7 +244,7 @@ Event Details: ${venueFormData.eventDetails}
           <div className="flex justify-between items-center h-16 md:h-20">
             <div className="flex-shrink-0">
               <button onClick={() => scrollToSection("home")} className="flex items-center">
-                <div className="relative w-[110px] h-[46px] md:w-[180px] md:h-[75px]">
+                <div className="relative w-[130px] h-[55px] sm:w-[150px] sm:h-[63px] md:w-[200px] md:h-[83px]">
                   <Image
                     src="/FamousB_Restaurant_Leeds_logo.png"
                     alt="Famous B Restaurant Leeds Logo"
@@ -381,8 +381,14 @@ Event Details: ${venueFormData.eventDetails}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white mb-4">
               Welcome to Famous B Restaurant
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-8 italic">
-              Authentic Cuisine in the Heart of Leeds
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-4 italic">
+              Authentic African's Cuisine in the Heart of Leeds UK
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-white/80 mb-2">
+              📍 1st & 2nd floor 34 Regent St, Leeds LS2 7QN
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-white/80 mb-8">
+              📞 +44 7438 036883 (WhatsApp)
             </p>
             <button
               onClick={() => scrollToSection("menu")}
