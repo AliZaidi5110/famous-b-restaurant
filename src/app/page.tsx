@@ -1931,16 +1931,12 @@ Event Details: ${venueFormData.eventDetails}
               
               <div className="space-y-3 md:space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-gray-700 text-sm sm:text-base">Monday - Friday</span>
-                  <span className="text-gray-800 font-semibold text-sm sm:text-base">11:00 AM - 10:00 PM</span>
+                  <span className="text-gray-700 text-sm sm:text-base">Monday - Thursday</span>
+                  <span className="text-gray-800 font-semibold text-sm sm:text-base">12:00 PM - 12:30 AM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 text-sm sm:text-base">Saturday</span>
-                  <span className="text-gray-800 font-semibold text-sm sm:text-base">11:00 AM - 11:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700 text-sm sm:text-base">Sunday</span>
-                  <span className="text-gray-800 font-semibold text-sm sm:text-base">12:00 PM - 9:00 PM</span>
+                  <span className="text-gray-700 text-sm sm:text-base">Friday - Sunday</span>
+                  <span className="text-gray-800 font-semibold text-sm sm:text-base">12:00 PM - 1:00 AM</span>
                 </div>
               </div>
 
