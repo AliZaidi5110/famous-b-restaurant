@@ -368,7 +368,7 @@ Event Details: ${venueFormData.eventDetails}
       <section id="home" className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden">
         <video
           ref={videoRef}
-          preload="none"
+          preload="auto"
           poster="/home_img_1.jpg"
           autoPlay
           muted
