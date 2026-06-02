@@ -233,7 +233,7 @@ Event Details: ${venueFormData.eventDetails}
   }, [isPlaying, isMuted, duration, togglePlay, toggleMute, toggleFullscreen]);
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen" role="main" id="main-content">
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
@@ -252,6 +252,7 @@ Event Details: ${venueFormData.eventDetails}
                     className="object-contain object-left"
                     priority
                     quality={90}
+                    sizes="200px"
                   />
                 </div>
               </button>
@@ -367,11 +368,14 @@ Event Details: ${venueFormData.eventDetails}
       <section id="home" className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden">
         <video
           ref={videoRef}
+          preload="none"
+          poster="/home_img_1.jpg"
           autoPlay
           muted
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover object-center"
+          aria-label="Restaurant video showing ambiance and atmosphere"
         >
           <source src="/Restaurant_Video.mp4" type="video/mp4" />
         </video>
@@ -386,10 +390,10 @@ Event Details: ${venueFormData.eventDetails}
               Authentic African&apos;s Cuisine in the Heart of Leeds UK
             </p>
             <p className="text-sm sm:text-base md:text-lg text-white/80 mb-2">
-              📍 1st & 2nd floor 34 Regent St, Leeds LS2 7QN
+              <span aria-hidden="true">📍</span> 1st & 2nd floor 34 Regent St, Leeds LS2 7QN
             </p>
             <p className="text-sm sm:text-base md:text-lg text-white/80 mb-8">
-              📞 +44 7438 036883 (WhatsApp)
+              <span aria-hidden="true">📞</span> +44 7438 036883 (WhatsApp)
             </p>
             <button
               onClick={() => scrollToSection("menu")}
@@ -636,8 +640,8 @@ Event Details: ${venueFormData.eventDetails}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
                       loading="lazy"
-                      quality={75}
-                      sizes="(max-width: 768px) 48px, 64px"
+                      quality={65}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -685,8 +689,8 @@ Event Details: ${venueFormData.eventDetails}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
                       loading="lazy"
-                      quality={75}
-                      sizes="(max-width: 768px) 48px, 64px"
+                      quality={65}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -716,8 +720,8 @@ Event Details: ${venueFormData.eventDetails}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
                       loading="lazy"
-                      quality={75}
-                      sizes="(max-width: 768px) 48px, 64px"
+                      quality={65}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -749,8 +753,8 @@ Event Details: ${venueFormData.eventDetails}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
                       loading="lazy"
-                      quality={75}
-                      sizes="(max-width: 768px) 48px, 64px"
+                      quality={65}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -788,8 +792,8 @@ Event Details: ${venueFormData.eventDetails}
                       fill
                       className="object-cover rounded-full border-2 border-[#C9A84C]"
                       loading="lazy"
-                      quality={75}
-                      sizes="(max-width: 768px) 48px, 64px"
+                      quality={65}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -850,8 +854,8 @@ Event Details: ${venueFormData.eventDetails}
                   fill
                   className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
-                  quality={75}
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  quality={70}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
               </motion.div>
@@ -1016,7 +1020,7 @@ Event Details: ${venueFormData.eventDetails}
                   <a href="tel:+447438036883" className="hover:text-[#C9A84C] transition">+44 7438 036883</a>
                 </p>
                 <p className="flex items-center justify-center md:justify-start gap-3 text-[#F5F0E8] text-sm sm:text-base">
-                  <span className="text-[#C9A84C]">✉️</span>
+                  <span className="text-[#C9A84C]" aria-hidden="true">✉️</span>
                   <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="hover:text-[#C9A84C] transition break-all">FAMOUSEDENENE@ROCKETMAIL.COM</a>
                 </p>
                 <p className="flex items-center justify-center md:justify-start gap-3 text-[#F5F0E8] text-sm sm:text-base">
@@ -1500,7 +1504,7 @@ Event Details: ${venueFormData.eventDetails}
               className="bg-[#111111] p-4 sm:p-6 md:p-8 rounded-lg border-t-4 border-[#C9A84C]"
             >
               <div className="text-[#C9A84C] mb-4 md:mb-6">
-                <span className="text-3xl sm:text-4xl">✉️</span>
+                <span className="text-3xl sm:text-4xl" aria-hidden="true">✉️</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#F5F0E8] font-serif mb-3 md:mb-4">Send an Enquiry</h3>
               <p className="text-[#9CA3AF] text-sm sm:text-base mb-6 md:mb-8">
@@ -1895,7 +1899,7 @@ Event Details: ${venueFormData.eventDetails}
               
               <div className="space-y-4 md:space-y-6">
                 <div className="flex items-start">
-                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4">📍</div>
+                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4" aria-hidden="true">📍</div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Location</h4>
                     <p className="text-gray-600 text-sm sm:text-base">1st & 2nd floor 34 Regent St</p>
@@ -1905,7 +1909,7 @@ Event Details: ${venueFormData.eventDetails}
                 </div>
 
                 <div className="flex items-start">
-                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4">📞</div>
+                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4" aria-hidden="true">📞</div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Phone</h4>
                     <a href="tel:+447438036883" className="text-amber-600 hover:text-amber-700 text-sm sm:text-base">
@@ -1915,7 +1919,7 @@ Event Details: ${venueFormData.eventDetails}
                 </div>
 
                 <div className="flex items-start">
-                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4">✉️</div>
+                  <div className="text-amber-600 text-xl sm:text-2xl mr-3 sm:mr-4" aria-hidden="true">✉️</div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Email</h4>
                     <a href="mailto:FAMOUSEDENENE@ROCKETMAIL.COM" className="text-amber-600 hover:text-amber-700 text-sm sm:text-base break-all">
@@ -1963,6 +1967,7 @@ Event Details: ${venueFormData.eventDetails}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="rounded-lg"
+                title="Map showing Famous B Restaurant location at 34 Regent St, Leeds LS2 7QN"
               ></iframe>
             </div>
           </div>
@@ -1982,7 +1987,7 @@ Event Details: ${venueFormData.eventDetails}
                   className="object-contain"
                   loading="lazy"
                   quality={85}
-                  sizes="(max-width: 768px) 180px, 250px"
+                  sizes="200px"
                 />
               </div>
               <p className="text-gray-400 text-sm sm:text-base mb-2">
@@ -2017,9 +2022,9 @@ Event Details: ${venueFormData.eventDetails}
             <div>
               <h4 className="text-base sm:text-lg font-semibold mb-3 md:mb-4">Contact Info</h4>
               <ul className="space-y-1 md:space-y-2 text-gray-400 text-xs sm:text-sm">
-                <li>📍 1st & 2nd floor 34 Regent St, Leeds LS2 7QN</li>
-                <li>📞 +44 7438 036883</li>
-                <li>✉️ FAMOUSEDENENE@ROCKETMAIL.COM</li>
+                <li><span aria-hidden="true">📍</span> 1st & 2nd floor 34 Regent St, Leeds LS2 7QN</li>
+                <li><span aria-hidden="true">📞</span> +44 7438 036883</li>
+                <li><span aria-hidden="true">✉️</span> FAMOUSEDENENE@ROCKETMAIL.COM</li>
               </ul>
             </div>
           </div>
